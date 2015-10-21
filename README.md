@@ -1,2 +1,2 @@
 # dotfiles
-My OS X / Ubuntu dorfiles
+My OS X / Ubuntu dotfiles

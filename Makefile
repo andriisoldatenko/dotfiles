@@ -1,5 +1,5 @@
 all:
-	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmuxconf ~/.tmux.conf
+	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
 
 clean:
 	rm -f ~/.tmux.conf

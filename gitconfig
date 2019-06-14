@@ -1,0 +1,39 @@
+[user]
+	name = Andrii Soldatenko
+	email = andrii.soldatenko@gmail.com
+[color]
+        ui = auto
+        branch = auto
+        diff = auto
+        interactive = auto
+        status = auto
+[alias]
+        co = checkout
+        a = add
+        push = push
+        pl = pull
+        c = commit
+        s = status
+        b = branch
+        d = diff
+        undo = reset --hard HEAD
+        hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+        type = cat-file -t
+        dump = cat-file -p
+        lt = log --all --graph --decorate --oneline --abbrev-commit
+        ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+        ld = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph
+        ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+        pr = !sh -c \"git fetch upstream pull/${1}/head:pr/${1} && git checkout pr/${1}\" 
+        change = codereview change
+        gofmt = codereview gofmt
+        mail = codereview mail
+        pending = codereview pending
+        submit = codereview submit
+        sync = codereview sync
+        recent = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/
+[core]
+	excludesfile = ~/.gitignore_global
+	editor = vim
+[http]
+	cookiefile = /Users/andrii/.gitcookies

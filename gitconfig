@@ -9,17 +9,22 @@
         status = auto
 [alias]
         co = checkout
-        a = add
+	p = !git push origin $(git rev-parse --abbrev-ref HEAD)
+	pl = !git pull origin $(git rev-parse --abbrev-ref HEAD)
+	c = "!git add -A && git commit -m "
+	a = add
         push = push
-        pl = pull
         c = commit
         s = status
         b = branch
-        d = diff
+	d = diff
+	lsch = "!f() { git diff --name-status -r "HEAD~$1"; }; f"
+	pom = pull origin master
         undo = reset --hard HEAD
         hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
         type = cat-file -t
-        dump = cat-file -p
+	dump = cat-file -p
+	last = log -1 HEAD
         lt = log --all --graph --decorate --oneline --abbrev-commit
         ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
         ld = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph
@@ -34,6 +39,10 @@
         recent = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/
 [core]
 	excludesfile = ~/.gitignore_global
-	editor = vim
+	editor = nvim
 [http]
 	cookiefile = /Users/andrii/.gitcookies
+[tag]
+	sort = -version:refname
+[diff]
+	noprefix = true

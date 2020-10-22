@@ -22,6 +22,8 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-jdaddy'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'ruanyl/vim-gh-line'
+Plug 'airblade/vim-gitgutter'
+Plug 'haya14busa/incsearch.vim'
 
 call plug#end()
 
@@ -69,7 +71,7 @@ set pumheight=10                " Completion window max size
 set nocursorcolumn              " Do not highlight column (speeds up highlighting)
 set nocursorline                " Do not highlight cursor (speeds up highlighting)
 set lazyredraw                  " Wait to redraw
-
+set history=1000
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
 set clipboard^=unnamed
@@ -179,7 +181,29 @@ set statusline+=\ %*
 noremap <Leader>n :NERDTreeToggle<cr>
 noremap <Leader>f :NERDTreeFind<cr>
 
-let NERDTreeShowHidden=1
+" ==================== GitGutter ====================
+set updatetime=250
+let g:gitgutter_max_signs = 500
+" No mapping
+let g:gitgutter_map_keys = 0
+" Colors
+" let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_use_colorscheme = 1
+highlight clear SignColumn
+highlight GitGutterAdd ctermfg=2
+highlight GitGutterChange ctermfg=3
+highlight GitGutterDelete ctermfg=1
+highlight GitGutterChangeDelete ctermfg=4
+
+" ==================== incsearch ====================
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+
 
 " ==================== FZF ====================
 let g:fzf_command_prefix = 'Fzf'
@@ -283,6 +307,8 @@ augroup go
   autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
   autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
   autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+  autocmd BufRead,BufNewFile * setlocal signcolumn=yes
+
 augroup END
 
 
@@ -321,6 +347,15 @@ let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
 
 imap <expr> <CR> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
 
+" ==================== incsearch.vim.  ====================
+set hlsearch
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
 
 " Key bindings
 
@@ -336,3 +371,9 @@ vnoremap <c-k> :m '<-2<CR>gv=gv
 
 " pretty print json
 nmap =j :%!python -m json.tool<CR>
+
+" nohls when double esc
+nnoremap <esc><esc> :silent! nohls<cr>
+
+nnoremap n nzz
+nnoremap N Nzz

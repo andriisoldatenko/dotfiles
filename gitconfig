@@ -46,3 +46,8 @@
 	sort = -version:refname
 [diff]
 	noprefix = true
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false

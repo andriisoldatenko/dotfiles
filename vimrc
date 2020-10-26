@@ -6,6 +6,8 @@ Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'Raimondi/delimitMate'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': { -> fzf#install() }}
 Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
+Plug 'cespare/vim-toml'
 Plug 'altercation/vim-colors-solarized'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'preservim/nerdtree'
@@ -24,6 +26,8 @@ Plug 'radenling/vim-dispatch-neovim'
 Plug 'ruanyl/vim-gh-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'haya14busa/incsearch.vim'
+Plug 'b4b4r07/vim-sqlfmt'
+
 
 call plug#end()
 
@@ -180,6 +184,9 @@ set statusline+=\ %*
 " For toggling
 noremap <Leader>n :NERDTreeToggle<cr>
 noremap <Leader>f :NERDTreeFind<cr>
+
+" ==================== ag ====================
+let g:ackprg = 'ag --vimgrep --smart-case'
 
 " ==================== GitGutter ====================
 set updatetime=250
@@ -357,6 +364,10 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
+" ==================== vim-sqlfmt  ====================
+let g:sqlfmt_command = "sqlformat"
+let g:sqlfmt_options = "-r -k upper"
+
 " Key bindings
 
 " Ctrl-j - Move current line down
@@ -377,3 +388,18 @@ nnoremap <esc><esc> :silent! nohls<cr>
 
 nnoremap n nzz
 nnoremap N Nzz
+
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+let g:ack_use_cword_for_empty_search = 1
+
+" Fast saving
+nnoremap <leader>w :w!<cr>
+nnoremap <silent> <leader>q :q!<CR>
+
+" Center the screen
+nnoremap <space> zz
+
+" Print full path
+map <C-f> :echo expand("%:p")<cr>
+

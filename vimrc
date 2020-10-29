@@ -10,6 +10,7 @@ Plug 'mileszs/ack.vim'
 Plug 'cespare/vim-toml'
 Plug 'altercation/vim-colors-solarized'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
@@ -27,7 +28,7 @@ Plug 'ruanyl/vim-gh-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'haya14busa/incsearch.vim'
 Plug 'b4b4r07/vim-sqlfmt'
-
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 call plug#end()
 
@@ -179,6 +180,11 @@ set statusline+=%#myInfoColor#
 set statusline+=\ %{StatusLineFiletype()}\ %{StatusLinePercent()}\ %l:%v
 set statusline+=\ %*
 
+"===================== MAPPINGS ======================
+" This comes first, because we have mappings that depend on leader
+" With a map leader it's possible to do extra key combinations
+" i.e: <leader>w saves the current file
+let mapleader = ","
 
 " ==================== NerdTree ====================
 " For toggling
@@ -194,13 +200,14 @@ let g:gitgutter_max_signs = 500
 " No mapping
 let g:gitgutter_map_keys = 0
 " Colors
-" let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_highlight_linenrs = 1
 let g:gitgutter_use_colorscheme = 1
 highlight clear SignColumn
 highlight GitGutterAdd ctermfg=2
 highlight GitGutterChange ctermfg=3
 highlight GitGutterDelete ctermfg=1
 highlight GitGutterChangeDelete ctermfg=4
+highlight GitGutterAddLineNr ctermbg=2
 
 " ==================== incsearch ====================
 let g:incsearch#auto_nohlsearch = 1
@@ -254,6 +261,7 @@ let g:go_autodetect_gopath = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 let g:go_metalinter_enabled = ['vet', 'golint']
 
+let g:go_def_mode='gopls'
 let g:go_info_mode = 'gopls'
 let g:go_rename_command='gopls'
 let g:go_gopls_complete_unimported = 1

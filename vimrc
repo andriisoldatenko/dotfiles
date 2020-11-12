@@ -28,7 +28,7 @@ Plug 'ruanyl/vim-gh-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'haya14busa/incsearch.vim'
 Plug 'b4b4r07/vim-sqlfmt'
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+" Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 call plug#end()
 
@@ -46,6 +46,10 @@ set ttyfast                     " Indicate fast terminal conn for faster redraw
 if !has('nvim')
   set ttymouse=xterm2 " Indicate terminal type for mouse codes
   set ttyscroll=3     " Indicate terminal type for mouse codes
+endif
+
+if exists('&inccommand')
+  set inccommand=split
 endif
 
 set laststatus=2                " Show status line always
@@ -398,7 +402,6 @@ nnoremap n nzz
 nnoremap N Nzz
 
 cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
 let g:ack_use_cword_for_empty_search = 1
 
 " Fast saving

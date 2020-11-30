@@ -23,11 +23,14 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-jdaddy'
+Plug 'tpope/vim-surround'
+Plug 'sebdah/vim-delve'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'ruanyl/vim-gh-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'haya14busa/incsearch.vim'
 Plug 'b4b4r07/vim-sqlfmt'
+Plug 'christoomey/vim-sort-motion'
 " Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 call plug#end()

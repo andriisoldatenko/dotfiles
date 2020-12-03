@@ -16,6 +16,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'inkarkat/vim-ReplaceWithRegister'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
@@ -23,12 +25,15 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-jdaddy'
+Plug 'tpope/vim-abolish'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'ruanyl/vim-gh-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'haya14busa/incsearch.vim'
 Plug 'b4b4r07/vim-sqlfmt'
-" Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'preservim/nerdtree' |
+            \ Plug 'Xuyuanp/nerdtree-git-plugin' |
+            \ Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 

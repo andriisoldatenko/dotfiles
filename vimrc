@@ -26,6 +26,8 @@ Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-surround'
+Plug 'sebdah/vim-delve'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'ruanyl/vim-gh-line'
 Plug 'airblade/vim-gitgutter'
@@ -34,6 +36,8 @@ Plug 'b4b4r07/vim-sqlfmt'
 Plug 'preservim/nerdtree' |
             \ Plug 'Xuyuanp/nerdtree-git-plugin' |
             \ Plug 'ryanoasis/vim-devicons'
+
+Plug 'christoomey/vim-sort-motion'
 
 call plug#end()
 

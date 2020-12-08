@@ -32,6 +32,8 @@ Plug 'radenling/vim-dispatch-neovim'
 Plug 'ruanyl/vim-gh-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'haya14busa/incsearch.vim'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'dense-analysis/ale'
 Plug 'b4b4r07/vim-sqlfmt'
 Plug 'preservim/nerdtree' |
             \ Plug 'Xuyuanp/nerdtree-git-plugin' |
@@ -210,10 +212,10 @@ let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycach
 " Options include:
 " --vimgrep -> Needed to parse the rg response properly for ack.vim
 " --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
-let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
+let g:ackprg = 'rg --vimgrep --type-not sql --smart-case -g "!vendor"'
 
 " Auto close the Quickfix list after pressing '<enter>' on a list item
-" let g:ack_autoclose = 1
+let g:ack_autoclose = 1
 let g:ack_apply_lmappings = 1
 
 " Any empty ack search will search for the work the cursor is on
@@ -244,6 +246,13 @@ map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
 
+" ==================== ale ====================
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+let g:ale_lint_on_text_changed = 'never'
+
+
 " ==================== FZF ====================
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~20%' }
@@ -254,7 +263,7 @@ imap <C-p> <esc>:<C-u>FzfHistory<cr>
 
 " search across files in the current directory
 nmap <C-b> :FzfFiles<cr>
-imap <C-b> <esc>:<C-u>FzfFiles<cr>
+imap <C-b> <esc>:<C-u>FzfFiles(FindRootDirectory())<cr>
 
 
 " Better split switching
@@ -351,7 +360,6 @@ augroup go
   let g:indentLine_char = '⦙'
 augroup END
 
-
 " ==================== FZF ====================
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~20%' }
@@ -371,7 +379,7 @@ let g:rg_command = '
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   'rg --column --no-heading --color=always '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
@@ -444,5 +452,5 @@ map <C-f> :echo expand("%:p")<cr>
 
 " yaml files
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-let g:indentLine_char = '⦙'
+let g:indentLine_char_list = ['┊']
 

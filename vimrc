@@ -45,6 +45,7 @@ Plug 'preservim/nerdtree' |
             \ Plug 'ryanoasis/vim-devicons'
 
 Plug 'christoomey/vim-sort-motion'
+Plug 'machakann/vim-highlightedyank'
 
 call plug#end()
 
@@ -115,6 +116,9 @@ let g:rehash256 = 1
 set background=dark
 colorscheme solarized
 
+" ighlightedyank
+let g:highlightedyank_highlight_duration = 1000
+highlight HighlightedyankRegion cterm=reverse gui=reverse
 "=====================================================
 "===================== STATUSLINE ====================
 

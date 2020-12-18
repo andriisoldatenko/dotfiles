@@ -32,6 +32,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-rhubarb'
 Plug 'sebdah/vim-delve'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'ruanyl/vim-gh-line'
@@ -46,6 +47,7 @@ Plug 'preservim/nerdtree' |
 
 Plug 'christoomey/vim-sort-motion'
 Plug 'machakann/vim-highlightedyank'
+Plug 'justinmk/vim-sneak'
 
 call plug#end()
 
@@ -204,6 +206,34 @@ set statusline+=%#myInfoColor#
 set statusline+=\ %{StatusLineFiletype()}\ %{StatusLinePercent()}\ %l:%v
 set statusline+=\ %*
 
+" ==================== Sneak ==========================
+let g:sneak#label = 1
+
+" case insensitive sneak
+let g:sneak#use_ic_scs = 1
+
+" immediately move to the next instance of search, if you move the cursor sneak is back to default behavior
+let g:sneak#s_next = 1
+
+" remap so I can use , and ; with f and t
+map gS <Plug>Sneak_,
+map gs <Plug>Sneak_;
+
+" Change the colors
+highlight Sneak guifg=black guibg=#00C7DF ctermfg=black ctermbg=cyan
+highlight SneakScope guifg=red guibg=yellow ctermfg=red ctermbg=yellow
+
+" Cool prompts
+" let g:sneak#prompt = '🕵'
+" let g:sneak#prompt = '🔎'
+
+" I like quickscope better for this since it keeps me in the scope of a single line
+" map f <Plug>Sneak_f
+" map F <Plug>Sneak_F
+" map t <Plug>Sneak_t
+" map T <Plug>Sneak_T
+
+
 "===================== MAPPINGS ======================
 " This comes first, because we have mappings that depend on leader
 " With a map leader it's possible to do extra key combinations
@@ -268,7 +298,9 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 let g:ale_lint_on_text_changed = 'never'
-
+let g:ale_linters = {
+	\ 'go': ['gopls'],
+	\}
 " ==================== FZF ====================
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~20%' }
@@ -276,7 +308,16 @@ let g:fzf_layout = { 'down': '~20%' }
 " search across files in the current directory
 nmap <C-b> :FzfFiles<cr>
 imap <C-b> <esc>:<C-u>FzfFiles(FindRootDirectory())<cr>
+" 
+map <leader>h :wincmd h<CR>
+map <leader>j :wincmd j<CR>
+map <leader>k :wincmd k<CR>
+map <leader>l :wincmd l<CR>
 
+" noremap <Up> <Nop>
+" noremap <Down> <Nop>
+" noremap <Left> <Nop>
+" noremap <Right> <Nop>
 
 " Better split switching
 map <C-j> <C-W>j
@@ -458,3 +499,4 @@ map <C-f> :echo expand("%:p")<cr>
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 let g:indentLine_char_list = ['┊']
 
+set list listchars=space:·,trail:·,tab:→\ 

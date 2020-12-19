@@ -7,6 +7,7 @@ all:
 	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
 	[ -f ~/.gitconfig ] || ln -s $(PWD)/gitconfig ~/.gitconfig
 	[ -f ~/.vimrc ] || ln -s $(PWD)/vimrc ~/.vimrc
+	[ -f ~/.bash_aliases ] || ln -s $(PWD)/bash_aliases ~/.bash_aliases
 
 clean:
 	rm -f ~/.tmux.conf

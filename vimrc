@@ -48,6 +48,7 @@ Plug 'preservim/nerdtree' |
 Plug 'christoomey/vim-sort-motion'
 Plug 'machakann/vim-highlightedyank'
 Plug 'justinmk/vim-sneak'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 call plug#end()
 
@@ -100,6 +101,7 @@ set nocursorcolumn              " Do not highlight column (speeds up highlightin
 set cursorline                  " Highlight cursor
 set lazyredraw                  " Wait to redraw
 set history=1000
+set scrolloff=5
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
 set clipboard^=unnamed
@@ -204,8 +206,14 @@ set statusline+=%=
 " filetype, percentage, line number and column number
 set statusline+=%#myInfoColor#
 set statusline+=\ %{StatusLineFiletype()}\ %{StatusLinePercent()}\ %l:%v
-set statusline+=\ %*
 
+function! GitStatus()
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf('+%d ~%d -%d', a, m, r)
+endfunction
+set statusline+=\ %{GitStatus()}
+
+set statusline+=\ %*
 " ==================== Sneak ==========================
 let g:sneak#label = 1
 
@@ -412,6 +420,7 @@ nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
 " Hunk-add and hunk-revert for chunk staging
 nmap <Leader>ga <Plug>(GitGutterStageHunk)  " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
+nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
 
 " ==================== incsearch ====================
 let g:incsearch#auto_nohlsearch = 1
@@ -596,6 +605,7 @@ vnoremap <c-j> :m '>+1<CR>gv=gv
 vnoremap <c-k> :m '<-2<CR>gv=gv
 " copy reference
 nnoremap <leader>y :let @+=expand("%") . ':' . line(".")<CR>
+nnoremap <Leader>c :let @+=expand('%:p')<CR>
 " end
 
 " pretty print json
@@ -606,6 +616,10 @@ nnoremap <esc><esc> :silent! nohls<cr>
 
 nnoremap n nzz
 nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
 
 " Maps <leader>/ so we're ready to type the search keyword
 nnoremap <Leader>/ :Ack!<Space>
@@ -629,4 +643,4 @@ map <C-f> :echo expand("%:p")<cr>
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 let g:indentLine_char_list = ['┊']
 
-set list listchars=space:·,trail:·,tab:→\ 
+" set list listchars=space:·,trail:·,tab:→\ 

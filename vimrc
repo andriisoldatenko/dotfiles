@@ -605,7 +605,7 @@ vnoremap <c-j> :m '>+1<CR>gv=gv
 vnoremap <c-k> :m '<-2<CR>gv=gv
 " copy reference
 nnoremap <leader>y :let @+=expand("%") . ':' . line(".")<CR>
-nnoremap <Leader>c :let @+=expand('%:p')<CR>
+nnoremap <Leader>yy :let @+=expand('%:p')<CR>
 " end
 
 " pretty print json

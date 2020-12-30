@@ -642,4 +642,4 @@ map <C-f> :echo expand("%:p")<cr>
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 let g:indentLine_char_list = ['┊']
 
-" set list listchars=space:·,trail:·,tab:→\ 
+set list listchars=space:·,trail:·,tab:→\ 

@@ -1,0 +1,19 @@
+# Font configuration (changes require restart)
+font:
+  # The normal (roman) font face to use.
+  normal:
+    family: SF Mono
+    style: Regular
+
+  # The bold font face
+  bold:
+    family: SF Mono
+    style: Bold
+
+  # The italic font face
+  italic:
+    family: SF Mono
+    style: Regular Italic
+
+  # Point size of the font
+  size: 12.0

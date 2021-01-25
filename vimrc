@@ -48,6 +48,9 @@ Plug 'christoomey/vim-sort-motion'
 Plug 'machakann/vim-highlightedyank'
 Plug 'justinmk/vim-sneak'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'mg979/vim-visual-multi'
+Plug 't9md/vim-choosewin'
+Plug 'bkad/CamelCaseMotion'
 
 call plug#end()
 
@@ -247,11 +250,48 @@ highlight SneakScope guifg=red guibg=yellow ctermfg=red ctermbg=yellow
 " i.e: <leader>w saves the current file
 let mapleader = ","
 
+" ==================== vim-visual-multi ====================
+let g:VM_maps = {}
+let g:VM_maps = {}
+let g:VM_maps['Find Under']         = '<C-l>'           " replace C-n
+let g:VM_maps['Find Subword Under'] = '<C-l>'           " replace visual C-n
+let g:VM_maps["Select Cursor Down"] = '<M-C-Down>'      " start selecting down
+let g:VM_maps["Select Cursor Up"]   = '<M-C-Up>'        " start selecting up
+let g:VM_maps["Undo"] = 'u'
+let g:VM_maps["Redo"] = '<C-r>'
+
+
+
+" ====================  CamelCaseMotion ====================
+
+let g:camelcasemotion_key = '<leader>'
+
+" map <silent> w <Plug>CamelCaseMotion_w
+" map <silent> b <Plug>CamelCaseMotion_b
+" map <silent> e <Plug>CamelCaseMotion_e
+" map <silent> ge <Plug>CamelCaseMotion_ge
+" sunmap w
+" sunmap b
+" sunmap e
+" sunmap ge
+
+omap <silent> iw <Plug>CamelCaseMotion_iw
+xmap <silent> iw <Plug>CamelCaseMotion_iw
+omap <silent> ib <Plug>CamelCaseMotion_ib
+xmap <silent> ib <Plug>CamelCaseMotion_ib
+omap <silent> ie <Plug>CamelCaseMotion_ie
+xmap <silent> ie <Plug>CamelCaseMotion_ie
+
+imap <silent> <S-Left> <C-o><Plug>CamelCaseMotion_b
+imap <silent> <S-Right> <C-o><Plug>CamelCaseMotion_w
+
 " ==================== NerdTree ====================
 " For toggling
 noremap <Leader>n :NERDTreeToggle<cr>
 noremap <Leader>f :NERDTreeFind<cr>
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'htmlcov', 'node_modules', '.idea', '.git']
+
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " coc
 call coc#config('python', {'pythonPath': $PYENV_VIRTUAL_ENV})
@@ -383,6 +423,9 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
+" ==================== choosewin ===================
+nmap - <Plug>(choosewin)
+
 " ==================== ripgrep ====================
 " Use ripgrep for searching ⚡️
 " Options include:
@@ -439,6 +482,11 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {
 	\ 'go': ['gopls'],
 	\}
+let g:ale_fixers = {
+ \ 'javascript': ['eslint']
+ \ }
+let g:ale_fix_on_save = 1
+
 " ==================== FZF ====================
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~20%' }
@@ -466,6 +514,8 @@ map <C-l> <C-W>l
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
+silent! nmap <C-P> :FzfGFiles<CR>
+silent! nmap <F8> :FzfRg<CR>
 " ==================== vim-go ====================
 let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
@@ -629,7 +679,9 @@ nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 
 " Fast saving
-nnoremap <leader>w :w!<cr>
+noremap <silent> <C-S>          :update<CR>
+vnoremap <silent> <C-S>         <C-C>:update<CR>
+inoremap <silent> <C-S>         <C-O>:update<CR>
 nnoremap <silent> <leader>q :q!<CR>
 
 " Center the screen
@@ -642,4 +694,4 @@ map <C-f> :echo expand("%:p")<cr>
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 let g:indentLine_char_list = ['┊']
 
-set list listchars=space:·,trail:·,tab:→\ 
+" set list listchars=space:·,trail:·,tab:→\ 

@@ -51,6 +51,10 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'mg979/vim-visual-multi'
 Plug 't9md/vim-choosewin'
 Plug 'bkad/CamelCaseMotion'
+Plug 'vim-scripts/argtextobj.vim'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'kana/vim-textobj-user'
+Plug 'beloglazov/vim-textobj-quotes'
 
 call plug#end()
 

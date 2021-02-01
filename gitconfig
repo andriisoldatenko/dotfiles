@@ -53,3 +53,5 @@
 	prompt = false
 [pull]
 	ff = only
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/

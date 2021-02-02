@@ -1,6 +1,9 @@
 [user]
 	name = Andrii Soldatenko
 	email = andrii.soldatenko@gmail.com
+	signingkey = 1B11C0C28C75CD5A
+[commit]
+	gpgsign = true
 [color]
         ui = auto
         branch = auto
@@ -55,3 +58,5 @@
 	ff = only
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
+[gpg]
+	program = /usr/local/bin/gpg

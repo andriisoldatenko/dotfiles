@@ -56,6 +56,7 @@ Plug 'vim-scripts/argtextobj.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'kana/vim-textobj-user'
 Plug 'beloglazov/vim-textobj-quotes'
+Plug 'vim-python/python-syntax'
 
 call plug#end()
 
@@ -523,7 +524,7 @@ silent! nmap <C-P> :FzfGFiles<CR>
 silent! nmap <F8> :FzfRg<CR>
 " ==================== vim-go ====================
 let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = 'gopls'
 let g:go_debug_windows = {
       \ 'vars':  'leftabove 35vnew',
       \ 'stack': 'botright 10new',
@@ -540,10 +541,13 @@ let g:go_echo_command_info = 1
 let g:go_autodetect_gopath = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 let g:go_metalinter_enabled = ['vet', 'golint']
+let g:go_metalinter_command = 'gopls' 
 
 let g:go_def_mode='gopls'
 let g:go_info_mode = 'gopls'
 let g:go_rename_command='gopls'
+let g:go_gopls_gofumpt=v:true
+let g:go_imports_mode = 'gopls'
 let g:go_gopls_complete_unimported = 1
 let g:go_implements_mode='gopls'
 let g:go_diagnostics_enabled = 1
@@ -554,10 +558,14 @@ let g:go_highlight_array_whitespace_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
 let g:go_highlight_extra_types = 0
 let g:go_highlight_build_constraints = 1
-let g:go_highlight_types = 0
+let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
-let g:go_highlight_format_strings = 0
+let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 0
+let g:go_highlight_format_strings = 0
+let g:go_highlight_fields = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
 let g:go_gocode_propose_source = 1
 
 let g:go_modifytags_transform = 'camelcase'
@@ -698,3 +706,5 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 let g:indentLine_char_list = ['┊']
 
 " set list listchars=space:·,trail:·,tab:→\ 
+"
+let g:python_highlight_all = 1

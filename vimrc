@@ -57,10 +57,22 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'kana/vim-textobj-user'
 Plug 'beloglazov/vim-textobj-quotes'
 Plug 'vim-python/python-syntax'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'terryma/vim-expand-region'
+" Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+" Track the engine.
+" Plug 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+" Plug 'honza/vim-snippets'
 
 call plug#end()
 
 call pathogen#infect()
+
 
 """"""""""""""""""""""
 "      Settings      "
@@ -569,7 +581,7 @@ let g:go_highlight_build_constraints = 1
 let g:go_gocode_propose_source = 1
 
 let g:go_modifytags_transform = 'camelcase'
-let g:go_fold_enable = []
+let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment']
 
 nmap <C-g> :GoDecls<cr>
 imap <C-g> <esc>:<C-u>GoDecls<cr>
@@ -708,3 +720,29 @@ let g:indentLine_char_list = ['┊']
 " set list listchars=space:·,trail:·,tab:→\ 
 "
 let g:python_highlight_all = 1
+
+" Telescope
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <C-p> :lua require('telescope.builtin').git_files()<cr>
+
+" Using lua functions
+" nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+" nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+" nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+" nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+"
+"
+
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"

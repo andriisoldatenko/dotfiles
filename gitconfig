@@ -11,7 +11,11 @@
         interactive = auto
         status = auto
 [alias]
-        co = checkout
+	co = checkout
+	cl = clone
+	cp = cherry-pick
+	m = merge
+	r = reset
 	p = !git push origin $(git rev-parse --abbrev-ref HEAD)
 	pl = !git pull origin $(git rev-parse --abbrev-ref HEAD)
 	c = "!git add -A && git commit -m "

@@ -33,6 +33,8 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-unimpaired'
+Plug 'junegunn/vim-peekaboo'
 Plug 'sebdah/vim-delve'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'ruanyl/vim-gh-line'
@@ -63,12 +65,14 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'terryma/vim-expand-region'
 " Plug 'neovim/nvim-lspconfig'
+Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nacro90/numb.nvim'
+Plug 'lifepillar/vim-gruvbox8'
 " Track the engine.
-" Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
-" Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 
 call plug#end()
 
@@ -565,6 +569,7 @@ let g:go_gopls_complete_unimported = 1
 let g:go_implements_mode='gopls'
 let g:go_diagnostics_enabled = 1
 let g:go_doc_popup_window = 1
+let g:go_imports_autosave = 1
 
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_array_whitespace_error = 0
@@ -747,12 +752,44 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-
-
 lua << EOF
 require('numb').setup{
    show_numbers = true, -- Enable 'number' for the window while peeking
    show_cursorline = true -- Enable 'cursorline' for the window while peeking
 }
 EOF
+" misc
+nmap <script>n<CR> <SID>:tabe tmp/notes.md<CR>
 
+" Default settings. (NOTE: Remove comments in dictionary before sourcing)
+let g:expand_region_text_objects = {
+      \ 'iw'  :0,
+      \ 'iW'  :0,
+      \ 'i"'  :0,
+      \ 'i''' :0,
+      \ 'i]'  :1,
+      \ 'ib'  :1,
+      \ 'iB'  :1,
+      \ 'il'  :0,
+      \ 'ip'  :0,
+      \ 'ie'  :0,
+      \ }
+
+" LSP 
+" Set completeopt to have a better completion experience
+" set completeopt=menuone,noinsert,noselect
+
+" let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+
+" lua require'lspconfig'.tsserver.setup{on_attach=require'completion'.on_attach}
+" lua require'lspconfig'.pyls.setup{on_attach=require'completion'.on_attach}
+
+" nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+" nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+" nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+" nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>

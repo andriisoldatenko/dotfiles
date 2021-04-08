@@ -64,6 +64,7 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'terryma/vim-expand-region'
 " Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
+Plug 'nacro90/numb.nvim'
 " Track the engine.
 " Plug 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
@@ -746,3 +747,12 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+
+lua << EOF
+require('numb').setup{
+   show_numbers = true, -- Enable 'number' for the window while peeking
+   show_cursorline = true -- Enable 'cursorline' for the window while peeking
+}
+EOF
+

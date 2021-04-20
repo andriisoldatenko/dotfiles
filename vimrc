@@ -17,8 +17,6 @@ Plug 'jparise/vim-graphql'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Yggdroot/indentLine'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-commentary'
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'inkarkat/vim-ReplaceWithRegister'
@@ -73,7 +71,7 @@ Plug 'lifepillar/vim-gruvbox8'
 Plug 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plug 'honza/vim-snippets'
-
+Plug 'mbbill/undotree'
 call plug#end()
 
 call pathogen#infect()
@@ -488,7 +486,7 @@ nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
 nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
 
 " ==================== incsearch ====================
-let g:incsearch#auto_nohlsearch = 1
+let g:incsearch#auto_nohlsearch = 0
 map n  <Plug>(incsearch-nohl-n)
 map N  <Plug>(incsearch-nohl-N)
 map *  <Plug>(incsearch-nohl-*)
@@ -793,3 +791,22 @@ let g:expand_region_text_objects = {
 " nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 " nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 " nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+"
+"
+nnoremap <F5> :UndotreeToggle<CR>
+
+if has("persistent_undo")
+   let target_path = expand('~/.undodir')
+
+    " create the directory and any parent directories
+    " if the location does not exist.
+    if !isdirectory(target_path)
+        call mkdir(target_path, "p", 0700)
+    endif
+
+    let &undodir=target_path
+    set undofile
+endif
+
+
+nmap <leader>gs :G<CR>

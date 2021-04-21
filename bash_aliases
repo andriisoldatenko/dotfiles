@@ -3,4 +3,5 @@ alias k=kubectl
 alias kc='kubecolor'
 alias kctx='kubectx'
 alias kns='kubens'
-alias vim=/usr/local/bin/nvim05
+alias vim=/usr/local/bin/nvim
+alias gs='git status'

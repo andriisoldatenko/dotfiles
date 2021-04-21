@@ -8,6 +8,8 @@ all:
 	[ -f ~/.gitconfig ] || ln -s $(PWD)/gitconfig ~/.gitconfig
 	[ -f ~/.vimrc ] || ln -s $(PWD)/vimrc ~/.vimrc
 	[ -f ~/.bash_aliases ] || ln -s $(PWD)/bash_aliases ~/.bash_aliases
+	[ -f ~/.gpg.conf ] || ln -s $(PWD)/gpg.conf ~/.gnupg/gpg.conf
+	[ -f ~/.gpg-agent.conf ] || ln -s $(PWD)/gpg-agent.conf ~/.gnupg/gpg-agent.conf
 
 clean:
 	rm -f ~/.tmux.conf

@@ -72,6 +72,8 @@ Plug 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plug 'honza/vim-snippets'
 Plug 'mbbill/undotree'
+Plug 'AndrewRadev/deleft.vim'
+" Python related
 call plug#end()
 
 call pathogen#infect()
@@ -687,7 +689,7 @@ nnoremap <Leader>yy :let @+=expand('%:p')<CR>
 " end
 
 " pretty print json
-nmap =j :%!python -m json.tool<CR>
+nmap =j :%!python -c 'import sys, json; print(json.dumps(json.load(sys.stdin), indent=2))'<CR>
 
 " nohls when double esc
 nnoremap <esc><esc> :silent! nohls<cr>

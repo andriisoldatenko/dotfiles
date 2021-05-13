@@ -25,6 +25,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'fisadev/vim-isort'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
@@ -251,6 +253,9 @@ let g:sneak#s_next = 1
 " remap so I can use , and ; with f and t
 map gS <Plug>Sneak_,
 map gs <Plug>Sneak_;
+
+" remap shift+y to function like shift+d (i. e. Yank until the end of the line)
+map Y y$ 
 
 " Change the colors
 highlight Sneak guifg=black guibg=#00C7DF ctermfg=black ctermbg=cyan
@@ -812,3 +817,4 @@ endif
 
 
 nmap <leader>gs :G<CR>
+let g:vim_isort_map = '<C-i>'

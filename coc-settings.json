@@ -1,0 +1,17 @@
+{
+    "python.formatting.provider": "black",
+    "pyright.organizeimports.provider": "isort",
+    "python.sortImports.path": "isort",
+    "python.sortImports.args": [
+        "--src=${workspaceFolder}"
+    ],
+    "coc.preferences.formatOnType": true,
+    "coc.preferences.formatOnSaveFiletypes": [
+        "python"
+    ],
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": ["--enable=W0614"],
+    "python.linting.flake8Enabled": true,
+    "python.analysis.diagnosticMode": "workspace",
+}

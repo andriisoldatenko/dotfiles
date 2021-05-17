@@ -75,6 +75,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'mbbill/undotree'
 Plug 'AndrewRadev/deleft.vim'
+Plug 'AndrewRadev/whitespaste.vim'
 " Python related
 call plug#end()
 
@@ -818,3 +819,19 @@ endif
 
 nmap <leader>gs :G<CR>
 let g:vim_isort_map = '<C-i>'
+nnoremap j gj
+nnoremap k gk
+xnoremap j gj
+xnoremap k gk
+
+nmap J 5j
+nmap K 5k
+xmap J 5j
+xmap K 5k
+
+nmap gh <C-w>h
+nmap gj <C-w>j
+nmap gk <C-w>k
+nmap gl <C-w>l
+
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>

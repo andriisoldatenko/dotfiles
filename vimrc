@@ -34,6 +34,7 @@ Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-speeddating'
 Plug 'junegunn/vim-peekaboo'
 Plug 'sebdah/vim-delve'
 Plug 'radenling/vim-dispatch-neovim'
@@ -76,7 +77,7 @@ Plug 'honza/vim-snippets'
 Plug 'mbbill/undotree'
 Plug 'AndrewRadev/deleft.vim'
 Plug 'AndrewRadev/whitespaste.vim'
-" Python related
+Plug 'tmhedberg/SimpylFold'
 call plug#end()
 
 call pathogen#infect()
@@ -321,6 +322,11 @@ noremap <Leader>f :NERDTreeFind<cr>
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'htmlcov', 'node_modules', '.idea', '.git']
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" fold python code
+set foldmethod=indent
+set nofoldenable
+set foldnestmax=2
 
 " coc
 call coc#config('python', {'pythonPath': $PYENV_VIRTUAL_ENV})

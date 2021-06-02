@@ -78,6 +78,7 @@ Plug 'mbbill/undotree'
 Plug 'AndrewRadev/deleft.vim'
 Plug 'AndrewRadev/whitespaste.vim'
 Plug 'tmhedberg/SimpylFold'
+Plug 'shime/vim-livedown'
 call plug#end()
 
 call pathogen#infect()
@@ -148,6 +149,16 @@ set t_Co=256
 let g:rehash256 = 1
 set background=dark
 colorscheme solarized
+
+" https://github.com/mg979/vim-visual-multi/wiki/Mappings
+let g:VM_maps = {}
+let g:VM_default_mappings = 0
+let g:VM_leader = ','
+let g:VM_maps['Find Under']         = '<C-l>'           " replace C-n
+let g:VM_maps['Find Subword Under'] = '<C-l>'           " replace visual C-n
+let g:VM_maps["Select Cursor Down"] = '<M-C-Down>'      " start selecting down
+let g:VM_maps["Select Cursor Up"]   = '<M-C-Up>'        " start selecting up
+let g:VM_maps['Motion ,'] = ',,'
 
 " ighlightedyank
 let g:highlightedyank_highlight_duration = 1000
@@ -499,6 +510,9 @@ nmap <Leader>ga <Plug>(GitGutterStageHunk)  " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
 nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
 
+" launch/kill the Livedown server
+nmap gm :LivedownToggle<CR>
+
 " ==================== incsearch ====================
 let g:incsearch#auto_nohlsearch = 0
 map n  <Plug>(incsearch-nohl-n)
@@ -841,3 +855,4 @@ nmap gk <C-w>k
 nmap gl <C-w>l
 
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
+

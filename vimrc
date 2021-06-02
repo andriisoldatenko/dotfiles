@@ -79,6 +79,8 @@ Plug 'AndrewRadev/deleft.vim'
 Plug 'AndrewRadev/whitespaste.vim'
 Plug 'tmhedberg/SimpylFold'
 Plug 'shime/vim-livedown'
+Plug 'towolf/vim-helm'
+" Python related
 call plug#end()
 
 call pathogen#infect()

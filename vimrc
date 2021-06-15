@@ -80,6 +80,8 @@ Plug 'AndrewRadev/whitespaste.vim'
 Plug 'tmhedberg/SimpylFold'
 Plug 'shime/vim-livedown'
 Plug 'towolf/vim-helm'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/splitjoin.vim'
 " Python related
 call plug#end()
 
@@ -858,3 +860,7 @@ nmap gl <C-w>l
 
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI

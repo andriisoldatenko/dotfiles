@@ -82,6 +82,7 @@ Plug 'shime/vim-livedown'
 Plug 'towolf/vim-helm'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'lervag/file-line'
 " Python related
 call plug#end()
 
@@ -860,7 +861,15 @@ nmap gl <C-w>l
 
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 
+<<<<<<< HEAD
 omap aa <Plug>SidewaysArgumentTextobjA
 xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
+||||||| parent of be6dce3 (add file-line plugin)
+=======
+" Fugitive Conflict Resolution
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
+>>>>>>> be6dce3 (add file-line plugin)

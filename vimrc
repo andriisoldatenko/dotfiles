@@ -83,6 +83,7 @@ Plug 'towolf/vim-helm'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'lervag/file-line'
+Plug 'sickill/vim-pasta'
 " Python related
 call plug#end()
 
@@ -879,3 +880,8 @@ nnoremap gdl :diffget //3<CR>
 
 " 
 let g:file_line_crosshairs=0
+
+let g:whitespaste_before_mapping = ',P'
+let g:whitespaste_after_mapping  = ',p'
+
+let g:pasta_enabled_filetypes = ['python', 'javascript', 'sh']

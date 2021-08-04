@@ -701,8 +701,8 @@ map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
 " ==================== vim-sqlfmt  ====================
-let g:sqlfmt_command = "sqlformat"
-let g:sqlfmt_options = "-r -k upper"
+" let g:sqlfmt_command = "sqlformat"
+" let g:sqlfmt_options = "-r -k upper"
 
 " Key bindings
 
@@ -725,12 +725,19 @@ nmap =j :%!python -c 'import sys, json; print(json.dumps(json.load(sys.stdin), i
 " nohls when double esc
 nnoremap <esc><esc> :silent! nohls<cr>
 
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap g* g*zz
-nnoremap g# g#zz
+" Keeping it centered
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap * *zzzv
+nnoremap # #zzzv
+nnoremap g* g*zzzv
+nnoremap g# g#zzzv
+
+" undo break points
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
 
 " Maps <leader>/ so we're ready to type the search keyword
 nnoremap <Leader>/ :Ack!<Space>
@@ -869,3 +876,6 @@ xmap ia <Plug>SidewaysArgumentTextobjI
 nnoremap <leader>gd :Gvdiff<CR>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
+
+" 
+let g:file_line_crosshairs=0

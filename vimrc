@@ -84,6 +84,7 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'lervag/file-line'
 Plug 'sickill/vim-pasta'
+Plug 'tell-k/vim-autoflake'
 " Python related
 call plug#end()
 
@@ -885,3 +886,8 @@ let g:whitespaste_before_mapping = ',P'
 let g:whitespaste_after_mapping  = ',p'
 
 let g:pasta_enabled_filetypes = ['python', 'javascript', 'sh']
+
+autocmd FileType python map <buffer> <F3> :call Autoflake()<CR>
+let g:autoflake_remove_all_unused_imports=1
+let g:autoflake_remove_unused_variables=1
+let g:autoflake_disable_show_diff=1

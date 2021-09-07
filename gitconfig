@@ -31,7 +31,7 @@
         hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
         type = cat-file -t
 	dump = cat-file -p
-	last = log -1 HEAD
+	last = rev-parse --short HEAD
         lt = log --all --graph --decorate --oneline --abbrev-commit
         ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
         ld = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph

@@ -85,6 +85,8 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'lervag/file-line'
 Plug 'sickill/vim-pasta'
 Plug 'tell-k/vim-autoflake'
+Plug 'simeji/winresizer'
+Plug 'szw/vim-maximizer'
 " Python related
 call plug#end()
 
@@ -591,7 +593,7 @@ let g:go_echo_command_info = 1
 let g:go_autodetect_gopath = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 let g:go_metalinter_enabled = ['vet', 'golint']
-let g:go_metalinter_command = 'gopls' 
+let g:go_metalinter_command = 'golangci-lint' 
 
 let g:go_def_mode='gopls'
 let g:go_info_mode = 'gopls'
@@ -891,3 +893,18 @@ autocmd FileType python map <buffer> <F3> :call Autoflake()<CR>
 let g:autoflake_remove_all_unused_imports=1
 let g:autoflake_remove_unused_variables=1
 let g:autoflake_disable_show_diff=1
+
+" resize
+" If you want to start window resize mode by `Ctrl+T`
+let g:winresizer_start_key = '<C-T>'
+
+" If you want to cancel and quit window resize mode by `z` (keycode 122)
+let g:winresizer_keycode_cancel = 122
+
+" To expand your window size toward upper using upper arrow (instead of k)
+let g:winresizer_keycode_up = "\<UP>"
+" To expand your window size toward lower using down arrow (instead of j)
+let g:winresizer_keycode_down = "\<DOWN>"
+
+" maximize current split or return to previous
+noremap <C-w>m :MaximizerToggle<CR>

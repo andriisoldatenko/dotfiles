@@ -908,3 +908,5 @@ let g:winresizer_keycode_down = "\<DOWN>"
 
 " maximize current split or return to previous
 noremap <C-w>m :MaximizerToggle<CR>
+
+hi CursorLineNr    term=bold cterm=bold ctermfg=012 gui=bold

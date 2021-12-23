@@ -10,7 +10,7 @@ Plug 'mileszs/ack.vim'
 Plug 'cespare/vim-toml'
 Plug 'altercation/vim-colors-solarized'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
 Plug 'isRuslan/vim-es6'
 Plug 'pangloss/vim-javascript'
 Plug 'jparise/vim-graphql'
@@ -92,6 +92,7 @@ call plug#end()
 
 call pathogen#infect()
 
+let g:coc_global_extensions = [ 'coc-pyright' ]
 
 """"""""""""""""""""""
 "      Settings      "
@@ -350,6 +351,7 @@ set foldnestmax=2
 
 " coc
 call coc#config('python', {'pythonPath': $PYENV_VIRTUAL_ENV})
+call coc#config('python', {'venvPath': $PYENV_VIRTUAL_ENV})
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -508,7 +510,7 @@ highlight GitGutterAdd ctermfg=2
 highlight GitGutterChange ctermfg=3
 highlight GitGutterDelete ctermfg=1
 highlight GitGutterChangeDelete ctermfg=4
-highlight GitGutterAddLineNr ctermbg=2
+highlight GitGutterAddLineNr ctermfg=7 ctermbg=2
 
 " Jump between hunks
 nmap <Leader>gn <Plug>(GitGutterNextHunk)  " git next

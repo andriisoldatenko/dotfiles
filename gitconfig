@@ -1,7 +1,7 @@
 [user]
 	name = Andrii Soldatenko
 	email = andrii.soldatenko@gmail.com
-	signingkey = 1B11C0C28C75CD5A
+	signingkey = EB2B646A9FCDA0F4
 [commit]
 	gpgsign = true
 [color]
@@ -64,3 +64,8 @@
 	insteadOf = https://github.com/
 [gpg]
 	program = /usr/local/bin/gpg
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

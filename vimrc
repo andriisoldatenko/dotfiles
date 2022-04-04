@@ -3,7 +3,6 @@ set rtp +=~/.vim
 
 call plug#begin('~/.vim/plugged')
 Plug 'elzr/vim-json', {'for' : 'json'}
-Plug 'Raimondi/delimitMate'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': { -> fzf#install() }}
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
@@ -694,7 +693,6 @@ let g:delimitMate_smart_quotes = 1
 let g:delimitMate_expand_inside_quotes = 0    
 let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'   
 
-imap <expr> <CR> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
 
 " ==================== incsearch.vim.  ====================
 set hlsearch

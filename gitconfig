@@ -2,6 +2,8 @@
 	name = Andrii Soldatenko
 	email = andrii.soldatenko@gmail.com
 	signingkey = EB2B646A9FCDA0F4
+[net]
+	git-fetch-with-cli = true
 [commit]
 	gpgsign = true
 [color]

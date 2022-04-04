@@ -116,9 +116,8 @@ bell:
   duration: 0
 
 # Background opacity
-background_opacity: 1.0
-
-
+window:
+  opacity: 1.0
 # Mouse bindings
 #
 # Currently doesn't support modifiers. Both the `mouse` and `action` fields must
@@ -181,7 +180,7 @@ live_config_reload: true
 #     - --login
 #
 shell:
-  program: /usr/local/bin/tmux
+  program: /opt/homebrew/bin/tmux
   args:
     - new-session
     - -A

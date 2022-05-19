@@ -221,7 +221,7 @@ function! StatusLinePercent()
 endfunction
 
 function! StatusLineLeftInfo()
- let branch = fugitive#head()
+ let branch = FugitiveHead()
  let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
  if branch !=# ''
    return printf("%s | %s", branch, filename)
@@ -245,7 +245,7 @@ set statusline+=\ %{StatusLineLeftInfo()}
 set statusline+=\ %*
 
 " go command status (requires vim-go)
-set statusline+=%#goStatuslineColor#
+set statusline+=%#myInfoColor#
 set statusline+=%{go#statusline#Show()}
 set statusline+=%*
 

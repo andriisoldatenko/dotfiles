@@ -86,6 +86,9 @@ Plug 'sickill/vim-pasta'
 Plug 'tell-k/vim-autoflake'
 Plug 'simeji/winresizer'
 Plug 'szw/vim-maximizer'
+" Rust
+Plug 'rust-lang/rust.vim'
+Plug 'mattn/webapi-vim'
 " Python related
 call plug#end()
 
@@ -910,3 +913,8 @@ let g:winresizer_keycode_down = "\<DOWN>"
 noremap <C-w>m :MaximizerToggle<CR>
 
 hi CursorLineNr    term=bold cterm=bold ctermfg=012 gui=bold
+
+" Rust
+" enable automatic running of :RustFmt when you save a buffer.
+let g:rustfmt_autosave = 1
+let g:rust_clip_command = 'pbcopy'

@@ -1,7 +1,7 @@
 [user]
 	name = Andrii Soldatenko
-	email = andrii.soldatenko@gmail.com
-	signingkey = EB2B646A9FCDA0F4
+	email = andrii.soldatenko@sentry.io
+	signingkey = D3B8BB5F
 [net]
 	git-fetch-with-cli = true
 [commit]
@@ -62,10 +62,10 @@
 	prompt = false
 [pull]
 	ff = only
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
+; [url "ssh://git@github.com/"]
+; 	insteadOf = https://github.com/
 [gpg]
-	program = /usr/local/bin/gpg
+	program = /opt/homebrew/bin/gpg
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

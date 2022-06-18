@@ -80,12 +80,13 @@ export EDITOR='nvim'
 # https://github.com/keybase/keybase-issues/issues/2798
 export GPG_TTY=$(tty)
 
-source ~/.bash_aliases
+# source ~/.bash_aliases
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 export GOPATH=$HOME/workspace
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin:/Users/andrii/.cargo/bin
 alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias c='cargo'
 alias snowsql=/Applications/SnowSQL.app/Contents/MacOS/snowsql
 # Aliases
 alias vim='nvim'
@@ -133,6 +134,7 @@ alias snowsql=/Applications/SnowSQL.app/Contents/MacOS/snowsql
 alias hu='cd /Users/andrii/workspace/src/github.com/astronomer/houston-api'
 alias cli='cd /Users/andrii/workspace/src/github.com/astronomer/astro-cli'
 alias dotfiles='cd ~/work/dotfiles'
+alias gita="python3 -m gita"
 # Kubernetes
 #alias k="kubectl --kubeconfig=/Users/andrii/.kube/mot_config"
 #alias k="kubectl --kubeconfig=/Users/andrii/.kube/mot_config"
@@ -265,8 +267,12 @@ export PATH=$PATH:/usr/local/kubebuilder/bin
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+export PYTHONBREAKPOINT='ipdb.set_trace'
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

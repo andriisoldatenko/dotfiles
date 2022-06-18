@@ -83,7 +83,6 @@ export GPG_TTY=$(tty)
 source ~/.bash_aliases
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
-export TERM="xterm-color"
 export GOPATH=$HOME/workspace
 export PATH=$PATH:$GOPATH/bin
 alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'

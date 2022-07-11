@@ -46,6 +46,8 @@
         submit = codereview submit
         sync = codereview sync
         recent = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/
+  dunk = !git diff | dunk
+  br = "!bp() { git branch andrii/$1;git checkout andrii/$1;}; bp"
 [core]
 	excludesfile = ~/.gitignore_global
 	editor = nvim

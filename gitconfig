@@ -1,6 +1,6 @@
 [user]
 	name = Andrii Soldatenko
-	email = andrii.soldatenko@sentry.io
+	email = andrii.soldatenko@gmail.io
 	signingkey = D3B8BB5F
 [net]
 	git-fetch-with-cli = true

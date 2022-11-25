@@ -6,6 +6,10 @@ let mapleader=","
 Plug 'tpope/vim-surround'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
+Plug 'inkarkat/vim-ReplaceWithRegister'
+Plug 'machakann/vim-highlightedyank'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'vim-scripts/argtextobj.vim'
 
 "" -- Suggested options --
 " Show a few lines of context around the cursor. Note that this makes the
@@ -34,8 +38,12 @@ map Q gq
 
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
-set clipboard^=unnamed
-set clipboard^=unnamedplus
+set clipboard=unnamed
+set clipboard+=ideaput
+set ideajoin
 
 nnoremap yy "+yy
 vnoremap y "+y
+
+map <leader>r <Action>(RenameElement)
+set ReplaceWithRegister

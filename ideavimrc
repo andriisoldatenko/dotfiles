@@ -3,13 +3,20 @@
 
 let mapleader=","
 """ Plugins  --------------------------------
-Plug 'tpope/vim-surround'
-Plug 'preservim/nerdtree'
-Plug 'tpope/vim-commentary'
-Plug 'inkarkat/vim-ReplaceWithRegister'
-Plug 'machakann/vim-highlightedyank'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'vim-scripts/argtextobj.vim'
+set easymotion
+set surround
+set multiple-cursors
+set commentary
+set ReplaceWithRegister
+set argtextobj
+set exchange
+set textobj-entire
+set highlightedyank
+set sneak
+set NERDTree
+set vim-paragraph-motion
+set textobj-indent
+
 
 "" -- Suggested options --
 " Show a few lines of context around the cursor. Note that this makes the
@@ -18,6 +25,7 @@ set scrolloff=5
 
 " Do incremental searching.
 set incsearch
+
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq
@@ -35,15 +43,23 @@ map Q gq
 
 
 " Find more examples here: https://jb.gg/share-ideavimrc
+" IDEA specific settings
+set visualbell
+set noerrorbells
+set relativenumber
+set number
+set ignorecase
+set smartcase
+set ideajoin
+set ideaput
+set ideamarks
+set idearefactormode=keep
+set clipboard=unnamed
+set ideajoin
 
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
-set clipboard=unnamed
-set clipboard+=ideaput
-set ideajoin
 
 nnoremap yy "+yy
+nnoremap Y y$
 vnoremap y "+y
-
-map <leader>r <Action>(RenameElement)
-set ReplaceWithRegister

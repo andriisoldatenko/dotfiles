@@ -35,3 +35,13 @@ Brewfile
 $ brew bundle check
 The Brewfile's dependencies are satisfied.
 ```
+
+## To install useful key bindings and fuzzy completion:
+```
+$(brew --prefix)/opt/fzf/install
+```
+
+
+## To arrange windows
+> Spectacle users have recommended Rectangle as an open source alternative.
+https://github.com/rxhanson/Rectangle

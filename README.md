@@ -45,3 +45,14 @@ $(brew --prefix)/opt/fzf/install
 ## To arrange windows
 > Spectacle users have recommended Rectangle as an open source alternative.
 https://github.com/rxhanson/Rectangle
+
+
+## Github aliases cli
+```
+gh alias import ~/dotfiles/gh_aliases.yml
+```
+
+### dump current aliases
+```
+gh alias list > ~/dotfiles/gh_aliases.yml
+```

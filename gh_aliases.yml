@@ -1,0 +1,4 @@
+homework:	issue list --assignee @me
+i:	issue view --web
+pv:	pr view -w
+rv:	repo view --web

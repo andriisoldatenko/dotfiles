@@ -1,17 +1,15 @@
 [user]
 	name = Andrii Soldatenko
-	email = andrii.soldatenko@gmail.io
-	signingkey = AF2E89E4A6721665
 [net]
 	git-fetch-with-cli = true
 [commit]
 	gpgsign = true
 [color]
-        ui = auto
-        branch = auto
-        diff = auto
-        interactive = auto
-        status = auto
+  ui = true
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
 [alias]
 	co = checkout
 	cl = clone
@@ -50,7 +48,8 @@
   br = "!bp() { git branch andrii/$1;git checkout andrii/$1;}; bp"
 [core]
 	excludesfile = ~/.gitignore_global
-	editor = nvim
+  editor = nvim
+  pager = diff-so-fancy | less --tabs=4 -RFX
 [http]
 	cookiefile = /Users/andrii/.gitcookies
 [tag]
@@ -76,3 +75,16 @@
 	required = true
 [init]
 	defaultBranch = main
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = 11
+	frag = magenta bold
+	func = 146 bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse

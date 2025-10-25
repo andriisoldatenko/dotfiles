@@ -1,7 +1,7 @@
 [user]
   name = Andrii Soldatenko
   email = andrii.soldatenko@dynatrace.com
-  signingkey = 275C4B8ECD981CD1 
+  signingkey = 275C4B8ECD981CD1
 [net]
 	git-fetch-with-cli = true
 [commit]
@@ -99,3 +99,5 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[url "git@github.com:"]
+	insteadOf = https://github.com/

@@ -184,14 +184,14 @@ live_config_reload: true
 #   args:
 #     - --login
 #
-# shell:
-#   program: /opt/homebrew/bin/tmux
-  # args:
-  #   - new-session
-  #   - -A
-  #   - -D
-  #   - -s
- #   - main
+shell:
+  program: /opt/homebrew/bin/tmux
+  args:
+    - new-session
+    - -A
+    - -D
+    - -s
+    - main
 
 key_bindings:
   - { key: Left,     mods: Alt,     chars: "\x1bb"                       } # Skip word left

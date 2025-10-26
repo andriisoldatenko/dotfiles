@@ -102,6 +102,40 @@ require("lazy").setup {
         vim.keymap.set("n", "<C-g>", require("fzf-lua").lsp_document_symbols, {})
       end,
     },
+
+    -- file explorer
+    {
+      "nvim-tree/nvim-tree.lua",
+      version = "*",
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+      config = function()
+        require("nvim-tree").setup {
+          sort_by = "case_sensitive",
+          filters = {
+            dotfiles = true,
+          },
+          on_attach = function(bufnr)
+            local api = require "nvim-tree.api"
+
+            local function opts(desc)
+              return {
+                desc = "nvim-tree: " .. desc,
+                buffer = bufnr,
+                noremap = true,
+                silent = true,
+                nowait = true,
+              }
+            end
+
+            api.config.mappings.default_on_attach(bufnr)
+
+            vim.keymap.set("n", "s", api.node.open.vertical, opts "Open: Vertical Split")
+            vim.keymap.set("n", "i", api.node.open.horizontal, opts "Open: Horizontal Split")
+            vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts "Up")
+          end,
+        }
+      end,
+    },
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
@@ -109,3 +143,17 @@ require("lazy").setup {
   -- automatically check for plugin updates
   checker = { enabled = true },
 }
+
+
+
+-- Settings ---
+--
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+-- optionally enable 24-bit colour
+vim.opt.termguicolors = true
+
+-- File-tree mappings
+vim.keymap.set('n', '<leader>n', ':NvimTreeToggle<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>f', ':NvimTreeFindFileToggle!<CR>', { noremap = true })

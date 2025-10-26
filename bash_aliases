@@ -3,8 +3,12 @@ alias k=kubectl
 alias kc='kubecolor'
 alias kctx='kubectx'
 alias kns='kubens'
-alias vim=/opt/homebrew/bin/nvim
+# alias vim=/opt/homebrew/bin/nvim
 alias gs='git status'
+alias dy='cd $HOME/work/dynatrace-operator'
+alias dydoc='cd $HOME/work/dynatrace-docs'
+alias blog='cd $HOME/work/asoldatenko.org'
+alias kgpi="kubectl get pods -n dynatrace -o jsonpath=\"{.items[*].spec['initContainers', 'containers'][*].image}\" | tr -s '[[:space:]]' '\n' | sort | uniq -c"
 
 fbr() {
   local branches branch

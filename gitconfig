@@ -1,5 +1,7 @@
 [user]
-	name = Andrii Soldatenko
+  name = Andrii Soldatenko
+  email = andrii.soldatenko@dynatrace.com
+  signingkey = 275C4B8ECD981CD1 
 [net]
 	git-fetch-with-cli = true
 [commit]
@@ -10,6 +12,12 @@
   diff = auto
   interactive = auto
   status = auto
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+    side-by-side = true
+    ;navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
 [alias]
 	co = checkout
 	cl = clone
@@ -46,10 +54,12 @@
         recent = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/
   dunk = !git diff | dunk
   br = "!bp() { git branch andrii/$1;git checkout andrii/$1;}; bp"
+  patch = !git --no-pager diff --no-color
 [core]
 	excludesfile = ~/.gitignore_global
-  editor = nvim
-  pager = diff-so-fancy | less --tabs=4 -RFX
+	editor = nvim
+	pager = delta
+  ; pager = diff-so-fancy | less --tabs=4 -RFXS
 [http]
 	cookiefile = /Users/andrii/.gitcookies
 [tag]
@@ -58,7 +68,8 @@
 	noprefix = true
 [merge]
 	tool = vimdiff
-	conflictstyle = diff3
+	# conflictstyle = diff3
+	conflictStyle = zdiff3
 [mergetool]
 	prompt = false
 [pull]

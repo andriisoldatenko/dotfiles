@@ -3,7 +3,6 @@ alias k=kubectl
 alias kc='kubecolor'
 alias kctx='kubectx'
 alias kns='kubens'
-# alias vim=/opt/homebrew/bin/nvim
 alias gs='git status'
 alias dy='cd $HOME/work/dynatrace-operator'
 alias dydoc='cd $HOME/work/dynatrace-docs'

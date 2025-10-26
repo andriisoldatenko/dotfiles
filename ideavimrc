@@ -46,11 +46,11 @@ map Q gq
 " IDEA specific settings
 set visualbell
 set noerrorbells
-set relativenumber
+" set relativenumber
 set number
 set ignorecase
 set smartcase
-set ideajoin
+" set ideajoin
 set ideaput
 set ideamarks
 set idearefactormode=keep
@@ -63,3 +63,8 @@ set ideajoin
 nnoremap yy "+yy
 nnoremap Y y$
 vnoremap y "+y
+
+nmap J 5j
+nmap K 5k
+xmap J 5j
+xmap K 5k

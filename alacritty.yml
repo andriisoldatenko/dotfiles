@@ -74,42 +74,47 @@ font:
   # false.
   # use_thin_strokes: true
 
+
+import:
+ # - ~/.config/alacritty/themes/themes/github_light.yaml
+ - ~/.config/alacritty/themes/themes/solarized_dark.yaml
+
 # Colors (Solarized Dark)
-colors:
-  # Default colors
-  primary:
-    background: '0x002833'
-    foreground: '0x839495'
-
-  # Normal colors
-  normal:
-    black:   '0x003440'
-    red:     '0xdc312e'
-    green:   '0x859901'
-    yellow:  '0xb58900'
-    blue:    '0x268ad2'
-    magenta: '0xd33682'
-    cyan:    '0x2aa197'
-    white:   '0xeee8d5'
-
-  # Bright colors
-  bright:
-    black:   '0x002833'
-    red:     '0xcb4a16'
-    green:   '0x586d74'
-    yellow:  '0x657b82'
-    blue:    '0x839495'
-    magenta: '0x6c6ec6'
-    cyan:    '0x93a1a1'
-    white:   '0xfdf6e3'
-
-  selection:
-    background: '0x003440'
-    text: '0x93a1a1'
-
-  cursor:
-    background: '0xeee8d5'
-    text: '#073642'
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0x002833'
+#     foreground: '0x839495'
+#
+#   # Normal colors
+#   normal:
+#     black:   '0x003440'
+#     red:     '0xdc312e'
+#     green:   '0x859901'
+#     yellow:  '0xb58900'
+#     blue:    '0x268ad2'
+#     magenta: '0xd33682'
+#     cyan:    '0x2aa197'
+#     white:   '0xeee8d5'
+#
+#   # Bright colors
+#   bright:
+#     black:   '0x002833'
+#     red:     '0xcb4a16'
+#     green:   '0x586d74'
+#     yellow:  '0x657b82'
+#     blue:    '0x839495'
+#     magenta: '0x6c6ec6'
+#     cyan:    '0x93a1a1'
+#     white:   '0xfdf6e3'
+#
+#   selection:
+#     background: '0x003440'
+#     text: '0x93a1a1'
+#
+#   cursor:
+#     background: '0xeee8d5'
+#     text: '#073642'
 
 bell:
   animation: EaseOutExpo
@@ -179,14 +184,14 @@ live_config_reload: true
 #   args:
 #     - --login
 #
-shell:
-  program: /opt/homebrew/bin/tmux
-  args:
-    - new-session
-    - -A
-    - -D
-    - -s
-    - main
+# shell:
+#   program: /opt/homebrew/bin/tmux
+  # args:
+  #   - new-session
+  #   - -A
+  #   - -D
+  #   - -s
+ #   - main
 
 key_bindings:
   - { key: Left,     mods: Alt,     chars: "\x1bb"                       } # Skip word left

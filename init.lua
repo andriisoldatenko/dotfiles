@@ -154,6 +154,18 @@ vim.g.loaded_netrwPlugin = 1
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
 
+
+local options = {
+  clipboard = "unnamedplus",               -- allows neovim to access the system clipboard
+  undofile = true,                         -- enable persistent undo
+}
+
+for k, v in pairs(options) do
+  vim.opt[k] = v
+end
+
+
+
 -- File-tree mappings
 vim.keymap.set('n', '<leader>n', ':NvimTreeToggle<CR>', { noremap = true })
 vim.keymap.set('n', '<leader>f', ':NvimTreeFindFileToggle!<CR>', { noremap = true })

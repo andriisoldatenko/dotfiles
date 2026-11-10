@@ -68,3 +68,15 @@ nmap J 5j
 nmap K 5k
 xmap J 5j
 xmap K 5k
+
+" Disable arrow keys in insert mode
+inoremap <Up>    <Nop>
+inoremap <Down>  <Nop>
+inoremap <Left>  <Nop>
+inoremap <Right> <Nop>
+
+" Disable arrow keys in normal, visual, operator-pending mode
+noremap <Up>    <Nop>
+noremap <Down>  <Nop>
+noremap <Left>  <Nop>
+noremap <Right> <Nop>

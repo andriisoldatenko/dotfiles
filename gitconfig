@@ -1,7 +1,7 @@
 [user]
   name = Andrii Soldatenko
   email = andrii.soldatenko@dynatrace.com
-  signingkey = 275C4B8ECD981CD1 
+  signingkey = 275C4B8ECD981CD1
 [net]
 	git-fetch-with-cli = true
 [commit]
@@ -51,7 +51,7 @@
         pending = codereview pending
         submit = codereview submit
         sync = codereview sync
-        recent = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/
+	recent = !git for-each-ref --sort=-authordate | grep \"refs/remotes/origin/\" -m 10
   dunk = !git diff | dunk
   br = "!bp() { git branch andrii/$1;git checkout andrii/$1;}; bp"
   patch = !git --no-pager diff --no-color
@@ -99,3 +99,5 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[url "git@github.com:"]
+	insteadOf = https://github.com/

@@ -4,9 +4,54 @@ call minpac#init()
 call minpac#add('tpope/vim-unimpaired')
 call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
-call minpac#add('tpope/vim-fugitive')
-call minpac#add('airblade/vim-gitgutter')
 
+call minpac#add('tpope/vim-abolish')
+call minpac#add('tpope/vim-commentary')
+call minpac#add('tpope/vim-dispatch')
+call minpac#add('tpope/vim-eunuch')
+call minpac#add('tpope/vim-fugitive')
+call minpac#add('junegunn/gv.vim')
+
+call minpac#add('tpope/vim-jdaddy')
+call minpac#add('tpope/vim-repeat')
+call minpac#add('tpope/vim-rhubarb')
+call minpac#add('tpope/vim-scriptease')
+call minpac#add('tpope/vim-surround')
+call minpac#add('tpope/vim-vinegar')
+call minpac#add('tpope/vim-unimpaired')
+call minpac#add('tpope/vim-speeddating')
+
+call minpac#add('airblade/vim-gitgutter')
+call minpac#add('ruanyl/vim-gh-line')
+
+call minpac#add('junegunn/vim-peekaboo')
+call minpac#add('haya14busa/incsearch.vim')
+call minpac#add('jeffkreeftmeijer/vim-numbertoggle')
+call minpac#add('dense-analysis/ale')
+call minpac#add('b4b4r07/vim-sqlfmt')
+call minpac#add('preservim/nerdtree')
+call minpac#add('Xuyuanp/nerdtree-git-plugin')
+call minpac#add('ryanoasis/vim-devicons')
+call minpac#add('machakann/vim-highlightedyank')
+call minpac#add('vim-scripts/argtextobj.vim')
+call minpac#add('michaeljsmith/vim-indent-object')
+call minpac#add('kana/vim-textobj-user')
+call minpac#add('beloglazov/vim-textobj-quotes')
+
+call minpac#add('honza/vim-snippets')
+call minpac#add('mbbill/undotree')
+call minpac#add('AndrewRadev/deleft.vim')
+call minpac#add('AndrewRadev/whitespaste.vim')
+call minpac#add('tmhedberg/SimpylFold')
+call minpac#add('shime/vim-livedown')
+call minpac#add('towolf/vim-helm')
+call minpac#add('AndrewRadev/sideways.vim')
+call minpac#add('AndrewRadev/splitjoin.vim')
+call minpac#add('lervag/file-line')
+call minpac#add('sickill/vim-pasta')
+call minpac#add('tell-k/vim-autoflake')
+call minpac#add('simeji/winresizer')
+call minpac#add('szw/vim-maximizer')
 
 command! PackUpdate call minpac#update()
 command! PackClean call minpac#clean()
@@ -75,7 +120,7 @@ set t_Co=256
 let g:rehash256 = 1
 set background=dark
 " let g:Favcolorschemes = ["darkblue", "morning", "shine", "evening"]
-colorscheme shine
+" colorscheme darksolarized
 
 """"""""""""""""""""""""""
 """""""" STATUSLINE """"""
@@ -170,7 +215,12 @@ set statusline+=\ %{GitStatus()}
 
 set statusline+=\ %*
 
-" Mapping
+"===================== MAPPINGS ======================
+" This comes first, because we have mappings that depend on leader
+" With a map leader it's possible to do extra key combinations
+" i.e: <leader>w saves the current file
+let mapleader = ","
+
 nnoremap <C-p> :<C-u>FZF<CR>
 
 " Disable arrow keys in insert mode
@@ -187,3 +237,48 @@ noremap <Right> <Nop>
 
 " Markdown
 let g:markdown_folding = 1
+
+" ==================== NerdTree ====================
+" For toggling
+noremap <Leader>n :NERDTreeToggle<cr>
+noremap <Leader>f :NERDTreeFind<cr>
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'htmlcov', 'node_modules', '.idea', '.git']
+
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" ==================== GitGutter ====================
+set updatetime=250
+let g:gitgutter_max_signs = 500
+" No mapping
+let g:gitgutter_map_keys = 0
+" Colors
+let g:gitgutter_highlight_linenrs = 1
+let g:gitgutter_use_colorscheme = 1
+highlight clear SignColumn
+highlight GitGutterAdd ctermfg=2
+highlight GitGutterChange ctermfg=3
+highlight GitGutterDelete ctermfg=1
+highlight GitGutterChangeDelete ctermfg=4
+highlight GitGutterAddLineNr ctermfg=7 ctermbg=2
+
+" Jump between hunks
+nmap <Leader>gn <Plug>(GitGutterNextHunk)  " git next
+nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
+
+" Hunk-add and hunk-revert for chunk staging
+nmap <Leader>ga <Plug>(GitGutterStageHunk)  " git add (chunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
+nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
+
+" launch/kill the Livedown server
+nmap gm :LivedownToggle<CR>
+
+" Better split switching
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>

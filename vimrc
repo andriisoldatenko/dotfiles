@@ -103,6 +103,17 @@ set nocursorcolumn              " Do not highlight column (speeds up highlightin
 set lazyredraw                  " Wait to redraw
 set history=1000
 set scrolloff=5
+
+" only macOS
+set dictionary+=/usr/share/dict/words
+set thesaurus+=~/.vim/thesaurus/english.txt
+
+" Spell checking: on for prose only, custom words saved via zg
+set spelllang=en
+set spellfile=~/.vim/spell/en.utf-8.add
+autocmd FileType markdown,text,gitcommit setlocal spell
+autocmd FileType markdown,text,gitcommit setlocal complete+=k
+
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
 set clipboard^=unnamed
@@ -215,6 +226,23 @@ set statusline+=\ %{GitStatus()}
 
 set statusline+=\ %*
 
+" Clever Tab
+function! s:CleverTab() abort
+  if pumvisible()
+    return "\<C-p>"                      " menu open: next match
+  endif
+  let col = col('.') - 1
+  if !col || getline('.')[col - 1] =~ '\s'
+    return "\<Tab>"                      " line start / after space: real tab
+  endif
+  if getline('.')[:col - 1] =~ '/\f*$'
+    return "\<C-x>\<C-f>"                " looks like a path: file completion
+  endif
+  return "\<C-p>"                        " otherwise: keyword completion
+endfunction
+
+
+
 "===================== MAPPINGS ======================
 " This comes first, because we have mappings that depend on leader
 " With a map leader it's possible to do extra key combinations
@@ -222,6 +250,13 @@ set statusline+=\ %*
 let mapleader = ","
 
 nnoremap <C-p> :<C-u>FZF<CR>
+" to not conflict with tmux remap
+inoremap <C-x>f <C-x><C-f>
+imap <C-x><C-p> <plug>(fzf-complete-path)
+
+" map clever tab
+inoremap <expr> <Tab>   <SID>CleverTab()
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-n>" : "\<S-Tab>"
 
 " Disable arrow keys in insert mode
 inoremap <Up>    <Nop>
@@ -246,6 +281,8 @@ let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycach
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+
+" 
 " ==================== GitGutter ====================
 set updatetime=250
 let g:gitgutter_max_signs = 500

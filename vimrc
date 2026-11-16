@@ -4,6 +4,8 @@ call minpac#init()
 call minpac#add('tpope/vim-unimpaired')
 call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
+call minpac#add('mileszs/ack.vim')
+call minpac#add('lifepillar/vim-solarized8')
 
 call minpac#add('tpope/vim-abolish')
 call minpac#add('tpope/vim-commentary')
@@ -18,7 +20,6 @@ call minpac#add('tpope/vim-rhubarb')
 call minpac#add('tpope/vim-scriptease')
 call minpac#add('tpope/vim-surround')
 call minpac#add('tpope/vim-vinegar')
-call minpac#add('tpope/vim-unimpaired')
 call minpac#add('tpope/vim-speeddating')
 
 call minpac#add('airblade/vim-gitgutter')
@@ -126,12 +127,21 @@ if has('persistent_undo')
 endif
 
 " Colorscheme
+" Enable 24-bit true color in the terminal
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
+" Set dark background and apply Solarized
 syntax enable
-set t_Co=256
-let g:rehash256 = 1
 set background=dark
-" let g:Favcolorschemes = ["darkblue", "morning", "shine", "evening"]
-" colorscheme darksolarized
+colorscheme solarized8
+
+" Markdown colorscheme
+" ["darkblue", "morning", "shine", "evening"]
+" autocmd FileType markdown morning
 
 """"""""""""""""""""""""""
 """""""" STATUSLINE """"""
@@ -249,6 +259,71 @@ endfunction
 " i.e: <leader>w saves the current file
 let mapleader = ","
 
+" edit / reload vimrc
+nnoremap <leader>ev :edit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>:echo "vimrc reloaded"<CR>
+
+" Ack
+" Maps <leader>/ so we're ready to type the search keyword
+nnoremap <Leader>/ :Ack!<Space>
+" Search word under cursor (whole word, like *)
+nnoremap <Leader>* :Ack! -w <C-r><C-w><CR>
+" Expand :Ack -> :Ack! (don't jump to first result); only on the : command line
+cnoreabbrev <expr> Ack (getcmdtype() ==# ':' && getcmdline() ==# 'Ack') ? 'Ack!' : 'Ack'
+
+" ==================== Search ====================
+" Keep matches centered; incsearch.vim clears highlight once the cursor moves
+let g:incsearch#auto_nohlsearch = 1
+nmap n  <Plug>(incsearch-nohl-n)zzzv
+nmap N  <Plug>(incsearch-nohl-N)zzzv
+nmap *  <Plug>(incsearch-nohl-*)zzzv
+nmap #  <Plug>(incsearch-nohl-#)zzzv
+nmap g* <Plug>(incsearch-nohl-g*)zzzv
+nmap g# <Plug>(incsearch-nohl-g#)zzzv
+nnoremap <silent> <esc><esc> :silent! nohlsearch<CR>
+
+" Substitute the word under the cursor
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
+
+" Move by display lines; J/K jump 5 lines
+nnoremap j gj
+nnoremap k gk
+xnoremap j gj
+xnoremap k gk
+nmap J 5j
+nmap K 5k
+xmap J 5j
+xmap K 5k
+
+" Window navigation (in addition to <C-h/j/k/l>)
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>k :wincmd k<CR>
+nnoremap <leader>l :wincmd l<CR>
+nmap gh <C-w>h
+nmap gj <C-w>j
+nmap gk <C-w>k
+nmap gl <C-w>l
+
+" ==================== Editing ====================
+" Move lines up/down (normal-mode <C-j>/<C-k> are window navigation)
+inoremap <C-j> <Esc>:m .+1<CR>==gi
+inoremap <C-k> <Esc>:m .-2<CR>==gi
+xnoremap <C-j> :m '>+1<CR>gv=gv
+xnoremap <C-k> :m '<-2<CR>gv=gv
+
+" Undo break points while typing
+inoremap , ,<C-g>u
+inoremap . .<C-g>u
+inoremap ! !<C-g>u
+inoremap ? ?<C-g>u
+
+" Yank to end of line, like D and C
+nnoremap Y y$
+
+" Pretty-print JSON buffer
+nnoremap =j :%!python3 -m json.tool<CR>
+
 nnoremap <C-p> :<C-u>FZF<CR>
 " to not conflict with tmux remap
 inoremap <C-x>f <C-x><C-f>
@@ -272,6 +347,27 @@ noremap <Right> <Nop>
 
 " Markdown
 let g:markdown_folding = 1
+
+" ==================== ripgrep ====================
+" Use ripgrep for searching ⚡️
+" Options include:
+" --vimgrep -> Needed to parse the rg response properly for ack.vim
+" --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
+let g:ackprg = 'rg --vimgrep --type-not sql --smart-case -g "!vendor"'
+
+" Auto close the Quickfix list after pressing '<enter>' on a list item
+let g:ack_autoclose = 1
+
+" Any empty ack search will search for the work the cursor is on
+let g:ack_use_cword_for_empty_search = 1
+
+" fzf + rg: :Rg comes from fzf.vim; :F searches everything incl. hidden/ignored
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+  \ -g "!{.git,node_modules,vendor}/*" '
+command! -bang -nargs=* F call fzf#vim#grep(g:rg_command . shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
+nnoremap <F8> :Rg<CR>
 
 " ==================== NerdTree ====================
 " For toggling
@@ -311,11 +407,10 @@ nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
 nmap gm :LivedownToggle<CR>
 
 " Better split switching
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
 
-map <C-n> :cnext<CR>
-map <C-m> :cprevious<CR>
+
 nnoremap <leader>a :cclose<CR>

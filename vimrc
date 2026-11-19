@@ -385,12 +385,30 @@ let g:rg_command = '
   \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
   \ -g "!{.git,node_modules,vendor}/*" '
 command! -bang -nargs=* F call fzf#vim#grep(g:rg_command . shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
+
+" File list for :FZF / <C-p>: rg respects .gitignore (no bin/, vendor/, coverage
+" junk). Set here because the shell's FZF_DEFAULT_COMMAND isn't exported.
+let $FZF_DEFAULT_COMMAND = "rg --files --hidden --follow --glob '!.git/*'"
+
+" fzf in a small split at the bottom instead of the centered popup
+let g:fzf_layout = { 'down': '~20%' }
+
+" :Rg with the preview hidden until you press ?; :Rg! = fullscreen, preview on top
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- ' . shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+" Recent files (viminfo keeps 1000) and open buffers
+nnoremap <leader>fh :History<CR>
+nnoremap <leader>fb :Buffers<CR>
 nnoremap <F8> :Rg<CR>
 
 " ==================== NerdTree ====================
 " For toggling
 noremap <Leader>n :NERDTreeToggle<cr>
-noremap <Leader>f :NERDTreeFind<cr>
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'htmlcov', 'node_modules', '.idea', '.git']
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif

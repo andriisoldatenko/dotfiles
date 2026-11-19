@@ -567,7 +567,7 @@ augroup go
   autocmd FileType go inoremap <buffer> <C-g> <esc>:<C-u>GoDecls<cr>
 
   autocmd FileType go nmap <buffer> <silent> <Leader>v <Plug>(go-def-vertical)
-  autocmd FileType go nmap <buffer> <silent> <Leader>s <Plug>(go-def-split)
+  autocmd FileType go nmap <buffer> <silent> <Leader>S <Plug>(go-def-split)
   autocmd FileType go nmap <buffer> <silent> <Leader>d <Plug>(go-def-tab)
 
   autocmd FileType go nmap <buffer> <silent> <Leader>x <Plug>(go-doc-vertical)

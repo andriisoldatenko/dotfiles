@@ -303,15 +303,11 @@ nnoremap <silent> <esc><esc> :silent! nohlsearch<CR>
 " Substitute the word under the cursor
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 
-" Move by display lines; J/K jump 5 lines
+" Move by display lines
 nnoremap j gj
 nnoremap k gk
 xnoremap j gj
 xnoremap k gk
-nmap J 5j
-nmap K 5k
-xmap J 5j
-xmap K 5k
 
 " Window navigation (in addition to <C-h/j/k/l>)
 nnoremap <leader>h :wincmd h<CR>

@@ -141,17 +141,9 @@ autocmd vimrc FileType markdown,text,gitcommit setlocal spell complete+=k
 " autoread only acts on :checktime; run it when coming back to Vim/a buffer
 autocmd vimrc FocusGained,BufEnter * silent! checktime
 
-" Indent guides without indentLine (which uses conceal and hides quotes in
-" JSON / markup in Markdown). Tabs (Go) and leading spaces get a ┊.
+" Show trailing whitespace and non-breaking spaces; tabs render as blanks
 set list
-set listchars=tab:┊\ ,leadmultispace:┊\ \ \ ,trail:·,nbsp:␣
-" Space guides follow the buffer's indent width (2 for yaml/helm, 4 for python)
-function! s:IndentGuides() abort
-  let &l:listchars = 'tab:┊ ,leadmultispace:┊' . repeat(' ', shiftwidth() - 1)
-        \ . ',trail:·,nbsp:␣'
-endfunction
-autocmd vimrc BufWinEnter * call s:IndentGuides()
-autocmd vimrc OptionSet shiftwidth,tabstop call s:IndentGuides()
+set listchars=tab:\ \ ,trail:·,nbsp:␣
 
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
@@ -188,9 +180,12 @@ function! s:MyHighlights() abort
   hi myModeVisual  cterm=bold ctermbg=208 ctermfg=88  gui=bold guibg=#cb4b16 guifg=#fdf6e3
   hi myModeReplace cterm=bold ctermbg=160 ctermfg=231 gui=bold guibg=#dc322f guifg=#fdf6e3
   hi myModeOther   cterm=bold ctermbg=136 ctermfg=231 gui=bold guibg=#b58900 guifg=#fdf6e3
-  hi myInfoColor   ctermbg=240 ctermfg=252 guibg=#073642 guifg=#93a1a1
+  hi myInfoColor   ctermbg=240 ctermfg=254 guibg=#586e75 guifg=#eee8d5
 
   hi clear SignColumn
+  " Solarized gives SpecialKey a base02 bg, so 'list' tabs (Go indent) and
+  " trail/nbsp markers show as a band; keep the fg, drop the bg
+  hi SpecialKey ctermbg=NONE guibg=NONE
   hi GitGutterAdd          ctermfg=2 guifg=#859900
   hi GitGutterChange       ctermfg=3 guifg=#b58900
   hi GitGutterDelete       ctermfg=1 guifg=#dc322f

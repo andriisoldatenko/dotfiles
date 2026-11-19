@@ -29,6 +29,7 @@ function! s:PackInit() abort
   call minpac#add('tpope/vim-eunuch')
   call minpac#add('tpope/vim-fugitive')
   call minpac#add('junegunn/gv.vim')
+  call minpac#add('rhysd/git-messenger.vim')
 
   call minpac#add('tpope/vim-jdaddy')
   call minpac#add('tpope/vim-repeat')

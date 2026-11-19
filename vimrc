@@ -1,84 +1,85 @@
-packadd minpac
-call minpac#init()
+set encoding=utf-8              " Set default encoding to UTF-8
+scriptencoding utf-8            " This file has non-ASCII chars (listchars)
 
-call minpac#add('tpope/vim-unimpaired')
-call minpac#add('junegunn/fzf')
-call minpac#add('junegunn/fzf.vim')
-call minpac#add('mileszs/ack.vim')
-call minpac#add('lifepillar/vim-solarized8')
-call minpac#add('elzr/vim-json')
-call minpac#add('fatih/vim-go')
-call minpac#add('Yggdroot/indentLine')
-call minpac#add('inkarkat/vim-ReplaceWithRegister')
-call minpac#add('christoomey/vim-sort-motion')
-call minpac#add('bkad/CamelCaseMotion')
-call minpac#add('vim-python/python-syntax')
-call minpac#add('terryma/vim-expand-region')
-call minpac#add('SirVer/ultisnips')
-call minpac#add('ervandew/supertab')
-call minpac#add('godlygeek/tabular')
-call minpac#add('rust-lang/rust.vim')
+" minpac is only loaded for :PackUpdate / :PackClean, not on every startup.
+" Plugins live in ~/.vim/pack/minpac/start and load as normal packages.
+function! s:PackInit() abort
+  packadd minpac
+  call minpac#init()
 
-call minpac#add('tpope/vim-abolish')
-call minpac#add('tpope/vim-commentary')
-call minpac#add('tpope/vim-dispatch')
-call minpac#add('tpope/vim-eunuch')
-call minpac#add('tpope/vim-fugitive')
-call minpac#add('junegunn/gv.vim')
+  call minpac#add('tpope/vim-unimpaired')
+  call minpac#add('junegunn/fzf')
+  call minpac#add('junegunn/fzf.vim')
+  call minpac#add('mileszs/ack.vim')
+  call minpac#add('lifepillar/vim-solarized8')
+  call minpac#add('fatih/vim-go')
+  call minpac#add('inkarkat/vim-ReplaceWithRegister')
+  call minpac#add('christoomey/vim-sort-motion')
+  call minpac#add('bkad/CamelCaseMotion')
+  call minpac#add('vim-python/python-syntax')
+  call minpac#add('terryma/vim-expand-region')
+  call minpac#add('SirVer/ultisnips')
+  call minpac#add('ervandew/supertab')
+  call minpac#add('godlygeek/tabular')
+  call minpac#add('rust-lang/rust.vim')
 
-call minpac#add('tpope/vim-jdaddy')
-call minpac#add('tpope/vim-repeat')
-call minpac#add('tpope/vim-rhubarb')
-call minpac#add('tpope/vim-scriptease')
-call minpac#add('tpope/vim-surround')
-call minpac#add('tpope/vim-vinegar')
-call minpac#add('tpope/vim-speeddating')
+  call minpac#add('tpope/vim-abolish')
+  call minpac#add('tpope/vim-dispatch')
+  call minpac#add('tpope/vim-eunuch')
+  call minpac#add('tpope/vim-fugitive')
+  call minpac#add('junegunn/gv.vim')
 
-call minpac#add('airblade/vim-gitgutter')
-call minpac#add('ruanyl/vim-gh-line')
+  call minpac#add('tpope/vim-jdaddy')
+  call minpac#add('tpope/vim-repeat')
+  call minpac#add('tpope/vim-rhubarb')
+  call minpac#add('tpope/vim-scriptease')
+  call minpac#add('tpope/vim-surround')
+  call minpac#add('tpope/vim-vinegar')
+  call minpac#add('tpope/vim-speeddating')
 
-call minpac#add('junegunn/vim-peekaboo')
-call minpac#add('jeffkreeftmeijer/vim-numbertoggle')
-call minpac#add('b4b4r07/vim-sqlfmt')
-call minpac#add('preservim/nerdtree')
-call minpac#add('Xuyuanp/nerdtree-git-plugin')
-call minpac#add('ryanoasis/vim-devicons')
-call minpac#add('machakann/vim-highlightedyank')
-call minpac#add('vim-scripts/argtextobj.vim')
-call minpac#add('michaeljsmith/vim-indent-object')
-call minpac#add('kana/vim-textobj-user')
-call minpac#add('beloglazov/vim-textobj-quotes')
+  call minpac#add('airblade/vim-gitgutter')
 
-call minpac#add('honza/vim-snippets')
-call minpac#add('mbbill/undotree')
-call minpac#add('AndrewRadev/deleft.vim')
-call minpac#add('AndrewRadev/whitespaste.vim')
-call minpac#add('tmhedberg/SimpylFold')
-call minpac#add('shime/vim-livedown')
-call minpac#add('towolf/vim-helm')
-call minpac#add('AndrewRadev/sideways.vim')
-call minpac#add('AndrewRadev/splitjoin.vim')
-call minpac#add('lervag/file-line')
-call minpac#add('sickill/vim-pasta')
-call minpac#add('tell-k/vim-autoflake')
-call minpac#add('simeji/winresizer')
-call minpac#add('szw/vim-maximizer')
+  call minpac#add('junegunn/vim-peekaboo')
+  call minpac#add('jeffkreeftmeijer/vim-numbertoggle')
+  call minpac#add('b4b4r07/vim-sqlfmt')
+  call minpac#add('preservim/nerdtree')
+  call minpac#add('Xuyuanp/nerdtree-git-plugin')
+  call minpac#add('ryanoasis/vim-devicons')
+  call minpac#add('vim-scripts/argtextobj.vim')
+  call minpac#add('michaeljsmith/vim-indent-object')
+  call minpac#add('kana/vim-textobj-user')
+  call minpac#add('beloglazov/vim-textobj-quotes')
 
-command! PackUpdate call minpac#update()
-command! PackClean call minpac#clean()
+  call minpac#add('honza/vim-snippets')
+  call minpac#add('mbbill/undotree')
+  call minpac#add('AndrewRadev/deleft.vim')
+  call minpac#add('AndrewRadev/whitespaste.vim')
+  call minpac#add('tmhedberg/SimpylFold')
+  call minpac#add('shime/vim-livedown')
+  call minpac#add('towolf/vim-helm')
+  call minpac#add('AndrewRadev/sideways.vim')
+  call minpac#add('AndrewRadev/splitjoin.vim')
+  call minpac#add('lervag/file-line')
+  call minpac#add('tell-k/vim-autoflake')
+  call minpac#add('simeji/winresizer')
+  call minpac#add('szw/vim-maximizer')
+endfunction
+
+command! PackUpdate call s:PackInit() | call minpac#update()
+command! PackClean  call s:PackInit() | call minpac#clean()
+command! PackStatus call s:PackInit() | call minpac#status()
+
+" Built-in replacements for vim-commentary (gc) and vim-highlightedyank
+packadd! comment
+packadd! hlyank
 
 """"""""""""""""""""""
 "      Settings      "
 """"""""""""""""""""""
-set nocompatible                " Enables us Vim specific features
-filetype off                    " Reset filetype detection first ...
-filetype plugin indent on       " ... and enable filetype detection
-
-set ttyfast                     " Indicate fast terminal conn for faster redraw
+filetype plugin indent on       " Enable filetype detection, plugins, indent
 
 if !has('nvim')
-  set ttymouse=xterm2 " Indicate terminal type for mouse codes
-  set ttyscroll=3     " Indicate terminal type for mouse codes
+  set ttymouse=sgr    " SGR mouse codes: clicks work past column 223
 endif
 
 if exists('&inccommand')
@@ -86,14 +87,12 @@ if exists('&inccommand')
 endif
 
 set laststatus=2                " Show status line always
-set encoding=utf-8              " Set default encoding to UTF-8
 set autoread                    " Automatically read changed files
 set autoindent                  " Enabile Autoindent
 set backspace=indent,eol,start  " Makes backspace key more powerful.
 set incsearch                   " Shows the match while typing
 set mouse=a
 set hlsearch                    " Highlight found searches
-set noerrorbells                " No beeps
 set number                      " Show line numbers
 set showcmd                     " Show me what I'm typing
 set noswapfile                  " Don't use swapfile
@@ -109,13 +108,12 @@ set ignorecase                  " Search case insensitive...
 set smartcase                   " ... but not it begins with upper case
 set completeopt=menu,menuone    " Show popup menu, even if there is one entry
 set pumheight=10                " Completion window max size
-set nocursorcolumn              " Do not highlight column (speeds up highlighting)
 " set cursorline                  " Highlight cursor
 set lazyredraw                  " Wait to redraw
 set history=1000
 set scrolloff=5
 set shortmess+=c                " No 'match 1 of 5' messages during completion
-set belloff+=ctrlg              " No beeps during completion
+set belloff=all                 " No beeps, ever
 set maxmempattern=20000         " Big files with heavy syntax (vim-go) don't hit E363
 set viminfo='1000,<50,s10,h     " Remember 1000 recent files for fzf :History
 
@@ -139,10 +137,18 @@ augroup END
 
 autocmd vimrc FileType markdown,text,gitcommit setlocal spell complete+=k
 
+" autoread only acts on :checktime; run it when coming back to Vim/a buffer
+autocmd vimrc FocusGained,BufEnter * silent! checktime
+
+" Indent guides without indentLine (which uses conceal and hides quotes in
+" JSON / markup in Markdown). Tabs (Go) and leading spaces get a ┊.
+set list
+set listchars=tab:┊\ ,leadmultispace:┊\ \ \ ,trail:·,nbsp:␣
+
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
-set clipboard^=unnamed
-set clipboard^=unnamedplus
+" (unnamedplus is X11-only, does nothing on macOS)
+set clipboard=unnamed
 
 " This enables us to undo files even if you exit Vim.
 if has('persistent_undo')
@@ -418,6 +424,8 @@ nnoremap <F8> :Rg<CR>
 " ==================== NerdTree ====================
 " For toggling
 noremap <Leader>n :NERDTreeToggle<cr>
+" Leave netrw to vim-vinegar (`-`); NERDTree only via <Leader>n
+let g:NERDTreeHijackNetrw = 0
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'htmlcov', 'node_modules', '.idea', '.git']
 
 autocmd vimrc BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -560,9 +568,6 @@ augroup go
   autocmd Filetype go command! -buffer -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 augroup END
 
-" ==================== indentLine ====================
-let g:indentLine_char_list = ['┊']
-
 " ==================== CamelCaseMotion ====================
 let g:camelcasemotion_key = '\'
 
@@ -601,10 +606,6 @@ let g:UltiSnipsEditSplit = "vertical"
 " ==================== rust.vim ====================
 " run :RustFmt on save
 let g:rustfmt_autosave = 1
-
-" ==================== vim-json ====================
-" Keep quotes visible (indentLine sets conceallevel=2)
-let g:vim_json_syntax_conceal = 0
 
 " ==================== Visual * / # ====================
 " Search for the visually selected text

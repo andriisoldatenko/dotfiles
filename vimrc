@@ -468,14 +468,25 @@ let g:go_auto_sameids = 0
 " Don't echo 'vim-go: initializing gopls' etc.; the statusline shows Go job status
 let g:go_echo_command_info = 0
 " Tell vim-go where Go binaries live so it skips a slow `go env GOBIN` on open
-let g:go_bin_path = empty($GOBIN) ? expand('~/go/bin') : $GOBIN
+let s:go_default_bin_path = empty($GOBIN) ? expand('~/go/bin') : $GOBIN
+let g:go_bin_path = s:go_default_bin_path
+
+" Prefer project-pinned tools: if the module has bin/golangci-lint (e.g.
+" dynatrace-operator's `make prerequisites`), search that bin/ first, so
+" :GoMetaLinter uses the project's version. Uses findfile(), no shell-out.
+function! s:GoProjectBinPath() abort
+  let l:gomod = findfile('go.mod', expand('%:p:h') . ';')
+  let l:bin = empty(l:gomod) ? '' : fnamemodify(l:gomod, ':p:h') . '/bin'
+  let g:go_bin_path = !empty(l:bin) && executable(l:bin . '/golangci-lint')
+        \ ? l:bin : s:go_default_bin_path
+endfunction
 
 let g:go_autodetect_gopath = 1
 let g:go_metalinter_command = 'golangci-lint'
 
 let g:go_def_mode='gopls'
 let g:go_rename_command='gopls'
-let g:go_gopls_gofumpt=v:true
+let g:go_gopls_gofumpt = v:false
 let g:go_imports_mode = 'gopls'
 let g:go_gopls_complete_unimported = 1
 let g:go_implements_mode='gopls'
@@ -515,6 +526,8 @@ endfunction
 
 augroup go
   autocmd!
+
+  autocmd BufEnter *.go call s:GoProjectBinPath()
 
   " gofmt uses tabs; show them 4 columns wide instead of 8
   autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4

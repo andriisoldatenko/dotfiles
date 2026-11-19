@@ -6,6 +6,16 @@ call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
 call minpac#add('mileszs/ack.vim')
 call minpac#add('lifepillar/vim-solarized8')
+call minpac#add('elzr/vim-json')
+call minpac#add('fatih/vim-go')
+call minpac#add('Yggdroot/indentLine')
+call minpac#add('inkarkat/vim-ReplaceWithRegister')
+call minpac#add('christoomey/vim-sort-motion')
+call minpac#add('bkad/CamelCaseMotion')
+call minpac#add('vim-python/python-syntax')
+call minpac#add('terryma/vim-expand-region')
+call minpac#add('SirVer/ultisnips')
+call minpac#add('rust-lang/rust.vim')
 
 call minpac#add('tpope/vim-abolish')
 call minpac#add('tpope/vim-commentary')
@@ -26,7 +36,6 @@ call minpac#add('airblade/vim-gitgutter')
 call minpac#add('ruanyl/vim-gh-line')
 
 call minpac#add('junegunn/vim-peekaboo')
-call minpac#add('haya14busa/incsearch.vim')
 call minpac#add('jeffkreeftmeijer/vim-numbertoggle')
 call minpac#add('dense-analysis/ale')
 call minpac#add('b4b4r07/vim-sqlfmt')
@@ -139,6 +148,9 @@ syntax enable
 set background=dark
 colorscheme solarized8
 
+autocmd FileType markdown set background=light
+let g:solarized_statusline = "flat"
+
 " Markdown colorscheme
 " ["darkblue", "morning", "shine", "evening"]
 " autocmd FileType markdown morning
@@ -218,7 +230,7 @@ set statusline+=\ %*
 
 " go command status (requires vim-go)
 set statusline+=%#myInfoColor#
-" set statusline+=%{go#statusline#Show()}
+set statusline+=%{exists('*go#statusline#Show')?go#statusline#Show():''}
 set statusline+=%*
 
 " right section seperator
@@ -272,14 +284,13 @@ nnoremap <Leader>* :Ack! -w <C-r><C-w><CR>
 cnoreabbrev <expr> Ack (getcmdtype() ==# ':' && getcmdline() ==# 'Ack') ? 'Ack!' : 'Ack'
 
 " ==================== Search ====================
-" Keep matches centered; incsearch.vim clears highlight once the cursor moves
-let g:incsearch#auto_nohlsearch = 1
-nmap n  <Plug>(incsearch-nohl-n)zzzv
-nmap N  <Plug>(incsearch-nohl-N)zzzv
-nmap *  <Plug>(incsearch-nohl-*)zzzv
-nmap #  <Plug>(incsearch-nohl-#)zzzv
-nmap g* <Plug>(incsearch-nohl-g*)zzzv
-nmap g# <Plug>(incsearch-nohl-g#)zzzv
+" Keep matches centered and unfold them
+nnoremap n  nzzzv
+nnoremap N  Nzzzv
+nnoremap *  *zzzv
+nnoremap #  #zzzv
+nnoremap g* g*zzzv
+nnoremap g# g#zzzv
 nnoremap <silent> <esc><esc> :silent! nohlsearch<CR>
 
 " Substitute the word under the cursor
@@ -308,9 +319,9 @@ nmap gl <C-w>l
 " ==================== Editing ====================
 " Move lines up/down (normal-mode <C-j>/<C-k> are window navigation)
 inoremap <C-j> <Esc>:m .+1<CR>==gi
-inoremap <C-k> <Esc>:m .-2<CR>==gi
+" inoremap <C-k> <Esc>:m .-2<CR>==gi
 xnoremap <C-j> :m '>+1<CR>gv=gv
-xnoremap <C-k> :m '<-2<CR>gv=gv
+" xnoremap <C-k> :m '<-2<CR>gv=gv
 
 " Undo break points while typing
 inoremap , ,<C-g>u
@@ -357,9 +368,25 @@ let g:ackprg = 'rg --vimgrep --type-not sql --smart-case -g "!vendor"'
 
 " Auto close the Quickfix list after pressing '<enter>' on a list item
 let g:ack_autoclose = 1
+let g:ack_apply_lmappings = 1
+
+" Highlight the search term in buffers (sets @/ and turns on hlsearch)
+let g:ackhighlight = 1
+
+" Open the quickfix/location list after :make, :grep, :vimgrep etc. when it has
+" entries; close it when it's empty
+augroup AutoQuickfix
+  autocmd!
+  autocmd QuickFixCmdPost [^l]* nested cwindow
+  autocmd QuickFixCmdPost l*    nested lwindow
+augroup END
 
 " Any empty ack search will search for the work the cursor is on
 let g:ack_use_cword_for_empty_search = 1
+
+" Run searches through vim-dispatch instead of :grep. Terminal Vim's :grep
+" shells out and swaps screens, which makes the window blink.
+let g:ack_use_dispatch = 1
 
 " fzf + rg: :Rg comes from fzf.vim; :F searches everything incl. hidden/ignored
 let g:rg_command = '
@@ -414,3 +441,128 @@ nnoremap <C-l> <C-W>l
 
 
 nnoremap <leader>a :cclose<CR>
+
+" ==================== vim-go ====================
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_command = 'gopls'
+let g:go_debug_windows = {
+      \ 'vars':  'leftabove 35vnew',
+      \ 'stack': 'botright 10new',
+\ }
+
+let g:go_test_prepend_name = 1
+let g:go_list_type = "quickfix"
+let g:go_auto_type_info = 0
+let g:go_auto_sameids = 0
+
+let g:go_null_module_warning = 0
+let g:go_echo_command_info = 1
+
+let g:go_autodetect_gopath = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+let g:go_metalinter_enabled = ['vet', 'golint']
+let g:go_metalinter_command = 'golangci-lint' 
+
+let g:go_def_mode='gopls'
+let g:go_info_mode = 'gopls'
+let g:go_rename_command='gopls'
+let g:go_gopls_gofumpt=v:true
+let g:go_imports_mode = 'gopls'
+let g:go_gopls_complete_unimported = 1
+let g:go_implements_mode='gopls'
+let g:go_diagnostics_enabled = 1
+let g:go_doc_popup_window = 1
+let g:go_imports_autosave = 1
+
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_extra_types = 0
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 0
+let g:go_highlight_format_strings = 0
+let g:go_highlight_fields = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_gocode_propose_source = 1
+
+let g:go_modifytags_transform = 'camelcase'
+let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment']
+
+
+
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+
+augroup go
+  autocmd!
+
+  autocmd FileType go nmap <buffer> <C-g> :GoDecls<cr>
+  autocmd FileType go imap <buffer> <C-g> <esc>:<C-u>GoDecls<cr>
+
+  autocmd FileType go nmap <buffer> <silent> <Leader>v <Plug>(go-def-vertical)
+  autocmd FileType go nmap <buffer> <silent> <Leader>s <Plug>(go-def-split)
+  autocmd FileType go nmap <buffer> <silent> <Leader>d <Plug>(go-def-tab)
+
+  autocmd FileType go nmap <buffer> <silent> <Leader>x <Plug>(go-doc-vertical)
+
+  autocmd FileType go nmap <buffer> <silent> <Leader>i <Plug>(go-info)
+  autocmd FileType go nmap <buffer> <silent> <Leader>l <Plug>(go-metalinter)
+
+  autocmd FileType go nmap <buffer> <silent> <leader>b :<C-u>call <SID>build_go_files()<CR>
+  autocmd FileType go nmap <buffer> <silent> <leader>t  <Plug>(go-test)
+  autocmd FileType go nmap <buffer> <silent> <leader>r  <Plug>(go-run)
+  autocmd FileType go nmap <buffer> <silent> <leader>e  <Plug>(go-install)
+
+  autocmd FileType go nmap <buffer> <silent> <Leader>c <Plug>(go-coverage-toggle)
+
+  " I like these more!
+  autocmd Filetype go command! -buffer -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -buffer -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -buffer -bang AS call go#alternate#Switch(<bang>0, 'split')
+  autocmd Filetype go command! -buffer -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+augroup END
+
+" ==================== indentLine ====================
+let g:indentLine_char_list = ['┊']
+
+" ==================== CamelCaseMotion ====================
+let g:camelcasemotion_key = '\'
+
+" ==================== python-syntax ====================
+let g:python_highlight_all = 1
+
+" ==================== vim-expand-region ====================
+" + expands visual selection, _ shrinks it
+let g:expand_region_text_objects = {
+      \ 'iw'  :0,
+      \ 'iW'  :0,
+      \ 'i"'  :0,
+      \ 'i''' :0,
+      \ 'i]'  :1,
+      \ 'ib'  :1,
+      \ 'iB'  :1,
+      \ 'ip'  :0,
+      \ }
+
+" ==================== UltiSnips ====================
+" <Tab> = completion, insert <C-j> = move line, so expand with <C-l>
+let g:UltiSnipsExpandTrigger = "<c-l>"
+let g:UltiSnipsJumpForwardTrigger = "<c-b>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
+let g:UltiSnipsEditSplit = "vertical"
+
+" ==================== rust.vim ====================
+" run :RustFmt on save
+let g:rustfmt_autosave = 1

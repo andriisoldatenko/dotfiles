@@ -6,17 +6,27 @@ Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': { -> fzf#install() }}
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
+" NOT MIGRATED: TOML syntax built into Vim 8.2+
 Plug 'cespare/vim-toml'
+" NOT MIGRATED: replaced by lifepillar/vim-solarized8
 Plug 'altercation/vim-colors-solarized'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+" NOT MIGRATED: keep ALE + native completion instead
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
+" NOT MIGRATED: not needed
 Plug 'isRuslan/vim-es6'
+" NOT MIGRATED: not needed
 Plug 'pangloss/vim-javascript'
+" NOT MIGRATED: not needed
 Plug 'jparise/vim-graphql'
+" NOT MIGRATED: snippet engine decided separately
 Plug 'Shougo/neosnippet'
+" NOT MIGRATED: snippet engine decided separately
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Yggdroot/indentLine'
+" NOT MIGRATED: tmux syntax built into Vim 9
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
+" NOT MIGRATED: focus events native in Vim 9
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'tpope/vim-abolish'
@@ -25,6 +35,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
+" NOT MIGRATED: use ALE isort fixer instead
 Plug 'fisadev/vim-isort'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-repeat'
@@ -35,10 +46,13 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-speeddating'
 Plug 'junegunn/vim-peekaboo'
+" NOT MIGRATED: vim-go covers debugging
 Plug 'sebdah/vim-delve'
+" NOT MIGRATED: nvim-only
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'ruanyl/vim-gh-line'
 Plug 'airblade/vim-gitgutter'
+" NOT MIGRATED: native incsearch in Vim 9
 Plug 'haya14busa/incsearch.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'dense-analysis/ale'
@@ -49,9 +63,13 @@ Plug 'preservim/nerdtree' |
 
 Plug 'christoomey/vim-sort-motion'
 Plug 'machakann/vim-highlightedyank'
+" NOT MIGRATED: not wanted; gs used by sort-motion
 Plug 'justinmk/vim-sneak'
+" NOT MIGRATED: vim-livedown covers it
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+" NOT MIGRATED: not wanted
 Plug 'mg979/vim-visual-multi'
+" NOT MIGRATED: - kept for vim-vinegar
 Plug 't9md/vim-choosewin'
 Plug 'bkad/CamelCaseMotion'
 Plug 'vim-scripts/argtextobj.vim'
@@ -59,15 +77,23 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'kana/vim-textobj-user'
 Plug 'beloglazov/vim-textobj-quotes'
 Plug 'vim-python/python-syntax'
+" NOT MIGRATED: nvim-only telescope stack; fzf.vim covers it
 Plug 'nvim-lua/popup.nvim'
+" NOT MIGRATED: nvim-only telescope stack
 Plug 'nvim-lua/plenary.nvim'
+" NOT MIGRATED: nvim-only; fzf.vim covers it
 Plug 'nvim-telescope/telescope.nvim'
+" NOT MIGRATED: nvim-only telescope stack
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'terryma/vim-expand-region'
 " Plug 'neovim/nvim-lspconfig'
+" NOT MIGRATED: nvim-only; ALE covers LSP
 Plug 'neovim/nvim-lspconfig'
+" NOT MIGRATED: nvim-only, archived
 Plug 'nvim-lua/completion-nvim'
+" NOT MIGRATED: nvim-only
 Plug 'nacro90/numb.nvim'
+" NOT MIGRATED: solarized8 is the active scheme
 Plug 'lifepillar/vim-gruvbox8'
 " Track the engine.
 Plug 'SirVer/ultisnips'
@@ -88,6 +114,7 @@ Plug 'simeji/winresizer'
 Plug 'szw/vim-maximizer'
 " Rust
 Plug 'rust-lang/rust.vim'
+" NOT MIGRATED: only needed for :RustPlay
 Plug 'mattn/webapi-vim'
 " Python related
 call plug#end()
@@ -162,6 +189,7 @@ let g:rehash256 = 1
 set background=dark
 colorscheme solarized
 
+" NOT MIGRATED: vim-visual-multi not migrated
 " https://github.com/mg979/vim-visual-multi/wiki/Mappings
 let g:VM_maps = {}
 let g:VM_default_mappings = 0
@@ -266,6 +294,7 @@ endfunction
 set statusline+=\ %{GitStatus()}
 
 set statusline+=\ %*
+" NOT MIGRATED: vim-sneak not migrated
 " ==================== Sneak ==========================
 let g:sneak#label = 1
 
@@ -303,6 +332,7 @@ highlight SneakScope guifg=red guibg=yellow ctermfg=red ctermbg=yellow
 " i.e: <leader>w saves the current file
 let mapleader = ","
 
+" NOT MIGRATED: vim-visual-multi not migrated
 " ==================== vim-visual-multi ====================
 let g:VM_maps = {}
 let g:VM_maps = {}
@@ -351,6 +381,7 @@ set foldmethod=indent
 set nofoldenable
 set foldnestmax=2
 
+" NOT MIGRATED: coc.nvim config below (plugin not migrated)
 " coc
 call coc#config('python', {'pythonPath': $PYENV_VIRTUAL_ENV})
 call coc#config('python', {'venvPath': $PYENV_VIRTUAL_ENV})
@@ -482,6 +513,7 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
+" NOT MIGRATED: vim-choosewin not migrated
 " ==================== choosewin ===================
 nmap - <Plug>(choosewin)
 
@@ -526,6 +558,7 @@ nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
 " launch/kill the Livedown server
 nmap gm :LivedownToggle<CR>
 
+" NOT MIGRATED: incsearch.vim not migrated
 " ==================== incsearch ====================
 let g:incsearch#auto_nohlsearch = 0
 map n  <Plug>(incsearch-nohl-n)
@@ -697,6 +730,7 @@ let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'   
 
 
+" NOT MIGRATED: incsearch.vim not migrated
 " ==================== incsearch.vim.  ====================
 set hlsearch
 let g:incsearch#auto_nohlsearch = 1
@@ -772,6 +806,7 @@ let g:indentLine_char_list = ['┊']
 "
 let g:python_highlight_all = 1
 
+" NOT MIGRATED: telescope not migrated
 " Telescope
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -797,6 +832,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+" NOT MIGRATED: numb.nvim not migrated
 lua << EOF
 require('numb').setup{
    show_numbers = true, -- Enable 'number' for the window while peeking
@@ -820,6 +856,7 @@ let g:expand_region_text_objects = {
       \ 'ie'  :0,
       \ }
 
+" NOT MIGRATED: nvim-lspconfig/completion-nvim not migrated
 " LSP 
 " Set completeopt to have a better completion experience
 " set completeopt=menuone,noinsert,noselect
@@ -857,6 +894,7 @@ endif
 
 
 nmap <leader>gs :G<CR>
+" NOT MIGRATED: vim-isort not migrated
 let g:vim_isort_map = '<C-i>'
 nnoremap j gj
 nnoremap k gk
@@ -917,4 +955,5 @@ hi CursorLineNr    term=bold cterm=bold ctermfg=012 gui=bold
 " Rust
 " enable automatic running of :RustFmt when you save a buffer.
 let g:rustfmt_autosave = 1
+" NOT MIGRATED: only for :RustPlay, webapi-vim not migrated
 let g:rust_clip_command = 'pbcopy'

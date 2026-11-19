@@ -341,6 +341,11 @@ inoremap ? ?<C-g>u
 " Yank to end of line, like D and C
 nnoremap Y y$
 
+" JSON via python's json.tool (4-space indent, keeps key order):
+"   :JsonFormat  whole buffer (or a range), works in any filetype
+"   gq{motion}   in json buffers, e.g. gggqG
+command! -range=% JsonFormat <line1>,<line2>!python3 -m json.tool
+autocmd vimrc FileType json setlocal formatprg=python3\ -m\ json.tool
 
 nnoremap <C-p> :<C-u>FZF<CR>
 " to not conflict with tmux remap

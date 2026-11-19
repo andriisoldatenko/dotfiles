@@ -130,8 +130,14 @@ set thesaurus+=~/.vim/thesaurus/english.txt
 " Spell checking: on for prose only, custom words saved via zg
 set spelllang=en
 set spellfile=~/.vim/spell/en.utf-8.add
-autocmd FileType markdown,text,gitcommit setlocal spell
-autocmd FileType markdown,text,gitcommit setlocal complete+=k
+
+" One group for all vimrc autocmds, cleared first so :source $MYVIMRC
+" doesn't stack duplicates
+augroup vimrc
+  autocmd!
+augroup END
+
+autocmd vimrc FileType markdown,text,gitcommit setlocal spell complete+=k
 
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
@@ -144,6 +150,13 @@ if has('persistent_undo')
   set undodir=~/.config/vim/tmp/undo//
 endif
 
+" Vim doesn't create these; without them undofile / zg fail quietly
+for s:dir in [&undodir, fnamemodify(&spellfile, ':h')]
+  if !isdirectory(expand(s:dir))
+    call mkdir(expand(s:dir), 'p')
+  endif
+endfor
+
 " Colorscheme
 " Enable 24-bit true color in the terminal
 if exists('+termguicolors')
@@ -152,57 +165,56 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
+" Custom highlights. termguicolors is on, so gui* colors are what's used
+" (cterm* kept for non-truecolor terminals). Re-applied on every
+" :colorscheme, which otherwise wipes them. Solarized palette.
+function! s:MyHighlights() abort
+  hi myModeNormal  cterm=bold ctermbg=148 ctermfg=22  gui=bold guibg=#859900 guifg=#002b36
+  hi myModeInsert  cterm=bold ctermbg=23  ctermfg=231 gui=bold guibg=#268bd2 guifg=#fdf6e3
+  hi myModeVisual  cterm=bold ctermbg=208 ctermfg=88  gui=bold guibg=#cb4b16 guifg=#fdf6e3
+  hi myModeReplace cterm=bold ctermbg=160 ctermfg=231 gui=bold guibg=#dc322f guifg=#fdf6e3
+  hi myModeOther   cterm=bold ctermbg=136 ctermfg=231 gui=bold guibg=#b58900 guifg=#fdf6e3
+  hi myInfoColor   ctermbg=240 ctermfg=252 guibg=#073642 guifg=#93a1a1
+
+  hi clear SignColumn
+  hi GitGutterAdd          ctermfg=2 guifg=#859900
+  hi GitGutterChange       ctermfg=3 guifg=#b58900
+  hi GitGutterDelete       ctermfg=1 guifg=#dc322f
+  hi GitGutterChangeDelete ctermfg=4 guifg=#268bd2
+  hi GitGutterAddLineNr    ctermfg=7 ctermbg=2 guifg=#eee8d5 guibg=#859900
+endfunction
+autocmd vimrc ColorScheme * call s:MyHighlights()
+
 " Set dark background and apply Solarized
+let g:solarized_statusline = "flat"  " must be set before :colorscheme
 syntax enable
 set background=dark
 colorscheme solarized8
-
-autocmd FileType markdown set background=light
-let g:solarized_statusline = "flat"
-
-" Markdown colorscheme
-" ["darkblue", "morning", "shine", "evening"]
-" autocmd FileType markdown morning
 
 """"""""""""""""""""""""""
 """""""" STATUSLINE """"""
 """"""""""""""""""""""""""
 
+" mode() first char -> [label, highlight group]
 let s:modes = {
-      \ 'n': 'NORMAL', 
-      \ 'i': 'INSERT', 
-      \ 'R': 'REPLACE', 
-      \ 'v': 'VISUAL', 
-      \ 'V': 'V-LINE', 
-      \ "\<C-v>": 'V-BLOCK',
-      \ 'c': 'COMMAND',
-      \ 's': 'SELECT', 
-      \ 'S': 'S-LINE', 
-      \ "\<C-s>": 'S-BLOCK', 
-      \ 't': 'TERMINAL'
+      \ 'n':      ['NORMAL',   'myModeNormal'],
+      \ 'i':      ['INSERT',   'myModeInsert'],
+      \ 'R':      ['REPLACE',  'myModeReplace'],
+      \ 'v':      ['VISUAL',   'myModeVisual'],
+      \ 'V':      ['V-LINE',   'myModeVisual'],
+      \ "\<C-v>": ['V-BLOCK',  'myModeVisual'],
+      \ 'c':      ['COMMAND',  'myModeOther'],
+      \ 's':      ['SELECT',   'myModeVisual'],
+      \ 'S':      ['S-LINE',   'myModeVisual'],
+      \ "\<C-s>": ['S-BLOCK',  'myModeVisual'],
+      \ 't':      ['TERMINAL', 'myModeOther'],
       \}
 
-let s:prev_mode = ""
-function! StatusLineMode()
-  let cur_mode = get(s:modes, mode(), '')
-
-  " do not update higlight if the mode is the same
-  if cur_mode == s:prev_mode
-    return cur_mode
-  endif
-
-  if cur_mode == "NORMAL"
-    exe 'hi! StatusLine ctermfg=236'
-    exe 'hi! myModeColor cterm=bold ctermbg=148 ctermfg=22'
-  elseif cur_mode == "INSERT"
-    exe 'hi! myModeColor cterm=bold ctermbg=23 ctermfg=231'
-  elseif cur_mode == "VISUAL" || cur_mode == "V-LINE" || cur_mode == "V_BLOCK"
-    exe 'hi! StatusLine ctermfg=236'
-    exe 'hi! myModeColor cterm=bold ctermbg=208 ctermfg=88'
-  endif
-
-  let s:prev_mode = cur_mode
-  return cur_mode
+" Returns statusline markup (used via %{%...%}), so the color comes from a
+" highlight group per mode instead of re-running :hi on every redraw
+function! StatusLineMode() abort
+  let [label, group] = get(s:modes, mode()[0], ['', 'myModeOther'])
+  return '%#' . group . '#' . label . '%*'
 endfunction
 
 function! StatusLineFiletype()
@@ -222,15 +234,11 @@ function! StatusLineLeftInfo()
  return filename
 endfunction
 
-exe 'hi! myInfoColor ctermbg=240 ctermfg=252'
-
 " start building our statusline
 set statusline=
 
 " mode with custom colors
-set statusline+=%#myModeColor#
-set statusline+=%{StatusLineMode()}               
-set statusline+=%*
+set statusline+=%{%StatusLineMode()%}
 
 " left information bar (after mode)
 set statusline+=%#myInfoColor#
@@ -251,7 +259,7 @@ set statusline+=\ %{StatusLineFiletype()}\ %{StatusLinePercent()}\ %l:%v
 
 function! GitStatus()
   let [a,m,r] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', a, m, r)
+  return a + m + r == 0 ? '' : printf('+%d ~%d -%d', a, m, r)
 endfunction
 set statusline+=\ %{GitStatus()}
 
@@ -306,10 +314,10 @@ nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
-nmap gh <C-w>h
-nmap gj <C-w>j
-nmap gk <C-w>k
-nmap gl <C-w>l
+nnoremap gh <C-w>h
+nnoremap gj <C-w>j
+nnoremap gk <C-w>k
+nnoremap gl <C-w>l
 
 " ==================== Editing ====================
 " Move lines up/down (normal-mode <C-j>/<C-k> are window navigation)
@@ -412,7 +420,7 @@ nnoremap <F8> :Rg<CR>
 noremap <Leader>n :NERDTreeToggle<cr>
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'htmlcov', 'node_modules', '.idea', '.git']
 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd vimrc BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 
 " 
@@ -423,25 +431,20 @@ let g:gitgutter_max_signs = 500
 let g:gitgutter_map_keys = 0
 " Colors
 let g:gitgutter_highlight_linenrs = 1
-let g:gitgutter_use_colorscheme = 1
-highlight clear SignColumn
-highlight GitGutterAdd ctermfg=2
-highlight GitGutterChange ctermfg=3
-highlight GitGutterDelete ctermfg=1
-highlight GitGutterChangeDelete ctermfg=4
-highlight GitGutterAddLineNr ctermfg=7 ctermbg=2
+" Colors: see s:MyHighlights()
 
-" Jump between hunks
-nmap <Leader>gn <Plug>(GitGutterNextHunk)  " git next
-nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
+" No trailing comments on :map lines -- they become part of the mapping
+" Jump between hunks: git next / git previous
+nmap <Leader>gn <Plug>(GitGutterNextHunk)
+nmap <Leader>gp <Plug>(GitGutterPrevHunk)
 
-" Hunk-add and hunk-revert for chunk staging
-nmap <Leader>ga <Plug>(GitGutterStageHunk)  " git add (chunk)
-nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
-nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
+" Hunk staging: git add (chunk) / git undo (chunk) / preview
+nmap <Leader>ga <Plug>(GitGutterStageHunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)
+nmap <Leader>gP <Plug>(GitGutterPreviewHunk)
 
 " launch/kill the Livedown server
-nmap gm :LivedownToggle<CR>
+nnoremap gm :LivedownToggle<CR>
 
 " Better split switching
 nnoremap <C-j> <C-W>j
@@ -481,7 +484,6 @@ function! s:GoProjectBinPath() abort
         \ ? l:bin : s:go_default_bin_path
 endfunction
 
-let g:go_autodetect_gopath = 1
 let g:go_metalinter_command = 'golangci-lint'
 
 let g:go_def_mode='gopls'
@@ -532,8 +534,8 @@ augroup go
   " gofmt uses tabs; show them 4 columns wide instead of 8
   autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
 
-  autocmd FileType go nmap <buffer> <C-g> :GoDecls<cr>
-  autocmd FileType go imap <buffer> <C-g> <esc>:<C-u>GoDecls<cr>
+  autocmd FileType go nnoremap <buffer> <C-g> :GoDecls<cr>
+  autocmd FileType go inoremap <buffer> <C-g> <esc>:<C-u>GoDecls<cr>
 
   autocmd FileType go nmap <buffer> <silent> <Leader>v <Plug>(go-def-vertical)
   autocmd FileType go nmap <buffer> <silent> <Leader>s <Plug>(go-def-split)
@@ -618,11 +620,11 @@ xnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><C-o>
 " ==================== Go doc comment ====================
 " Insert `// <word under cursor> ` above the line to start a doc comment
 function! s:create_go_doc_comment()
-  norm "zyiw
+  norm! "zyiw
   execute ":put! z"
-  execute ":norm I// \<Esc>$"
+  execute ":norm! I// \<Esc>$"
 endfunction
-autocmd FileType go nnoremap <buffer> <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
+autocmd vimrc FileType go nnoremap <buffer> <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
 
 " ==================== Windows (from fatih/dotfiles) ====================
 " Fast save, and close all other windows
@@ -633,7 +635,7 @@ nnoremap <leader>o :only<CR>
 nnoremap q: :q
 
 " Re-equalize splits when the terminal / tmux pane is resized
-autocmd VimResized * wincmd =
+autocmd vimrc VimResized * wincmd =
 
 " Quickfix always full-width at the bottom, with wrapped lines
 augroup quickfix
@@ -644,7 +646,7 @@ augroup END
 
 " Help in a vertical split on the right (:Help is the explicit version)
 command! -nargs=* -complete=help Help vertical belowright help <args>
-autocmd FileType help wincmd L
+autocmd vimrc FileType help wincmd L
 
 " Terminal: <Esc> enters terminal-normal mode, <C-hjkl> moves to other windows
 if has('terminal')

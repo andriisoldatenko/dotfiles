@@ -145,6 +145,13 @@ autocmd vimrc FocusGained,BufEnter * silent! checktime
 " JSON / markup in Markdown). Tabs (Go) and leading spaces get a ┊.
 set list
 set listchars=tab:┊\ ,leadmultispace:┊\ \ \ ,trail:·,nbsp:␣
+" Space guides follow the buffer's indent width (2 for yaml/helm, 4 for python)
+function! s:IndentGuides() abort
+  let &l:listchars = 'tab:┊ ,leadmultispace:┊' . repeat(' ', shiftwidth() - 1)
+        \ . ',trail:·,nbsp:␣'
+endfunction
+autocmd vimrc BufWinEnter * call s:IndentGuides()
+autocmd vimrc OptionSet shiftwidth,tabstop call s:IndentGuides()
 
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
@@ -304,12 +311,14 @@ nnoremap <silent> <esc><esc> :silent! nohlsearch<CR>
 " Not the built-in nohlsearch package: it clears on CursorHold, i.e. after
 " updatetime=250ms. :nohlsearch inside an autocmd is undone, hence feedkeys.
 function! s:AutoNohl() abort
-  if !v:hlsearch || empty(@/)
+  " skip quickfix: :Ack (ackhighlight) lands there, moving in it would clear
+  if !v:hlsearch || empty(@/) || &buftype ==# 'quickfix'
     return
   endif
-  " first match at/after cursor; if it isn't at the cursor, we're off a match
+  " first match at/after cursor (this line only, so no full-file scan);
+  " if it isn't at the cursor, we're off a match
   try
-    let on_match = searchpos(@/, 'cnW') == getpos('.')[1:2]
+    let on_match = searchpos(@/, 'cnW', line('.')) == getpos('.')[1:2]
   catch
     let on_match = 0
   endtry

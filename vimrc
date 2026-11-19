@@ -300,6 +300,26 @@ nnoremap g* g*zzzv
 nnoremap g# g#zzzv
 nnoremap <silent> <esc><esc> :silent! nohlsearch<CR>
 
+" Auto-clear search highlight once the cursor leaves a match (n/N/* keep it).
+" Not the built-in nohlsearch package: it clears on CursorHold, i.e. after
+" updatetime=250ms. :nohlsearch inside an autocmd is undone, hence feedkeys.
+function! s:AutoNohl() abort
+  if !v:hlsearch || empty(@/)
+    return
+  endif
+  " first match at/after cursor; if it isn't at the cursor, we're off a match
+  try
+    let on_match = searchpos(@/, 'cnW') == getpos('.')[1:2]
+  catch
+    let on_match = 0
+  endtry
+  if !on_match
+    call feedkeys("\<Cmd>nohlsearch\<CR>", 'n')
+  endif
+endfunction
+autocmd vimrc CursorMoved * call s:AutoNohl()
+autocmd vimrc InsertEnter * call feedkeys("\<Cmd>nohlsearch\<CR>", 'n')
+
 " Substitute the word under the cursor
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 

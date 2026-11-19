@@ -57,7 +57,7 @@
   patch = !git --no-pager diff --no-color
 [core]
 	excludesfile = ~/.gitignore_global
-	editor = nvim
+	editor = vim
 	pager = delta
   ; pager = diff-so-fancy | less --tabs=4 -RFXS
 [http]

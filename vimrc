@@ -341,8 +341,6 @@ inoremap ? ?<C-g>u
 " Yank to end of line, like D and C
 nnoremap Y y$
 
-" Pretty-print JSON buffer
-nnoremap =j :%!python3 -m json.tool<CR>
 
 nnoremap <C-p> :<C-u>FZF<CR>
 " to not conflict with tmux remap

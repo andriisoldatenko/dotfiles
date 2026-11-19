@@ -107,6 +107,8 @@ require("lazy").setup {
         vim.keymap.set("n", "<C-p>", require("fzf-lua").git_files, {})
         vim.keymap.set("n", "<C-b>", require("fzf-lua").files, {})
         vim.keymap.set("n", "<C-g>", require("fzf-lua").lsp_document_symbols, {})
+        -- fuzzy path completion in insert mode (vimrc: fzf.vim <plug>(fzf-complete-path))
+        vim.keymap.set("i", "<C-x><C-p>", require("fzf-lua").complete_path, { desc = "fzf complete path" })
       end,
     },
 
@@ -211,7 +213,23 @@ require("lazy").setup {
     "honza/vim-snippets",
 
     -- languages / tools
-    "dense-analysis/ale",
+    -- lua_ls types for vim.*, plugins and vim.uv when editing nvim config
+    {
+      "folke/lazydev.nvim",
+      ft = "lua",
+      opts = {
+        library = {
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        },
+      },
+    },
+    {
+      "dense-analysis/ale",
+      init = function()
+        -- native lua_ls (+ lazydev) handles lua; ALE's own copy lacks nvim types
+        vim.g.ale_linters_ignore = { lua = { "lua_language_server" } }
+      end,
+    },
     "b4b4r07/vim-sqlfmt",
     "tmhedberg/SimpylFold",
     "towolf/vim-helm",
@@ -312,7 +330,7 @@ local options = {
   showmode = false,                        -- mode is shown in the statusline
   ignorecase = true,                       -- search case insensitive...
   smartcase = true,                        -- ...unless it contains upper case
-  completeopt = "menu,menuone",            -- show popup menu even with one entry
+  completeopt = "menu,menuone,noselect,popup", -- popup even with one entry, no auto-insert, docs preview
   pumheight = 10,                          -- completion window max size
   cursorcolumn = false,
   lazyredraw = true,                       -- wait to redraw
@@ -325,6 +343,22 @@ local options = {
 for k, v in pairs(options) do
   vim.opt[k] = v
 end
+
+-- Dictionary / thesaurus (only macOS) for CTRL-X CTRL-K / CTRL-X CTRL-T
+vim.opt.dictionary:append "/usr/share/dict/words"
+vim.opt.thesaurus:append(vim.fn.expand "~/.vim/thesaurus/english.txt")
+
+-- Spell checking: on for prose only, custom words (zg) shared with vim
+vim.opt.spelllang = "en"
+vim.opt.spellfile = vim.fn.expand "~/.vim/spell/en.utf-8.add"
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = { "markdown", "text", "gitcommit" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.complete:append "k"
+  end,
+})
 
 
 -- Highlights ---
@@ -418,6 +452,32 @@ end
 vim.opt.statusline = "%{%v:lua.StatusLine()%}"
 
 
+-- LSP ---
+-- lua_ls (brew install lua-language-server); lazydev feeds it nvim types
+vim.lsp.config("lua_ls", {
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
+  root_markers = { ".luarc.json", ".luarc.jsonc", ".stylua.toml", ".git" },
+})
+vim.lsp.enable "lua_ls"
+
+-- LSP completion: popup as you type (nvim 0.12 builtin). <C-y> accepts.
+-- TODO: migrate to blink.cmp (see README)
+vim.o.autocomplete = true -- auto-open completion menu while typing
+vim.opt.complete:append "o" -- include omnifunc (= LSP) in that menu
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup,
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client and client:supports_method "textDocument/completion" then
+      -- also triggers on server trigger chars ("." ":"); <C-y> applies
+      -- extras like auto-imports and snippets
+      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+    end
+  end,
+})
+
+
 -- Mappings ---
 local map = vim.keymap.set
 
@@ -425,6 +485,29 @@ local map = vim.keymap.set
 for _, key in ipairs { "<Up>", "<Down>", "<Left>", "<Right>" } do
   map({ "i", "n", "v", "o" }, key, "<Nop>")
 end
+
+-- Completion: tmux prefix is C-f, so CTRL-X CTRL-F never reaches nvim
+map("i", "<C-x>f", "<C-x><C-f>", { desc = "file completion (tmux-safe)" })
+
+-- Clever Tab: real tab after whitespace, file completion after a path,
+-- keyword completion otherwise
+map("i", "<Tab>", function()
+  if vim.fn.pumvisible() == 1 then
+    return "<C-p>" -- menu open: next match
+  end
+  local col = vim.fn.col "." - 1
+  local line = vim.fn.getline "."
+  if col == 0 or line:sub(col, col):match "%s" then
+    return "<Tab>" -- line start / after space: real tab
+  end
+  if vim.fn.match(line:sub(1, col), [[/\f*$]]) >= 0 then
+    return "<C-x><C-f>" -- looks like a path: file completion
+  end
+  return "<C-p>" -- otherwise: keyword completion
+end, { expr = true, desc = "clever tab" })
+map("i", "<S-Tab>", function()
+  return vim.fn.pumvisible() == 1 and "<C-n>" or "<S-Tab>"
+end, { expr = true, desc = "previous completion" })
 
 -- Better split switching
 map("", "<C-j>", "<C-w>j")

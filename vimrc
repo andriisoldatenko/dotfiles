@@ -629,9 +629,6 @@ autocmd vimrc FileType go nnoremap <buffer> <leader>ui :<C-u>call <SID>create_go
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>o :only<CR>
 
-" Don't open the command-line window on a mistyped :q
-nnoremap q: :q
-
 " Re-equalize splits when the terminal / tmux pane is resized
 autocmd vimrc VimResized * wincmd =
 

@@ -6,6 +6,7 @@ scriptencoding utf-8            " This file has non-ASCII chars (listchars)
 function! s:PackInit() abort
   packadd minpac
   call minpac#init()
+  call minpac#add('k-takata/minpac', {'type': 'opt'})  " so :PackUpdate updates it too
 
   call minpac#add('tpope/vim-unimpaired')
   call minpac#add('junegunn/fzf')
@@ -227,10 +228,6 @@ function! StatusLineFiletype()
   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
-function! StatusLinePercent()
-  return (100 * line('.') / line('$')) . '%'
-endfunction
-
 function! StatusLineLeftInfo()
  let branch = FugitiveHead()
  let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
@@ -261,7 +258,7 @@ set statusline+=%=
 
 " filetype, percentage, line number and column number
 set statusline+=%#myInfoColor#
-set statusline+=\ %{StatusLineFiletype()}\ %{StatusLinePercent()}\ %l:%v
+set statusline+=\ %{StatusLineFiletype()}\ %p%%\ %l:%v
 
 function! GitStatus()
   let [a,m,r] = GitGutterGetHunkSummary()
@@ -281,8 +278,9 @@ set statusline+=\ %*
 let mapleader = ","
 
 " edit / reload vimrc
-nnoremap <leader>ev :edit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>:echo "vimrc reloaded"<CR>
+" (under ,f: Go buffers map ,e ,s ,v, which made these wait timeoutlen)
+nnoremap <leader>fv :edit $MYVIMRC<CR>
+nnoremap <leader>fr :source $MYVIMRC<CR>:echo "vimrc reloaded"<CR>
 
 " Ack
 " Maps <leader>/ so we're ready to type the search keyword

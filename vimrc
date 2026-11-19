@@ -16,6 +16,7 @@ call minpac#add('vim-python/python-syntax')
 call minpac#add('terryma/vim-expand-region')
 call minpac#add('SirVer/ultisnips')
 call minpac#add('ervandew/supertab')
+call minpac#add('godlygeek/tabular')
 call minpac#add('rust-lang/rust.vim')
 
 call minpac#add('tpope/vim-abolish')
@@ -515,6 +516,9 @@ endfunction
 augroup go
   autocmd!
 
+  " gofmt uses tabs; show them 4 columns wide instead of 8
+  autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
+
   autocmd FileType go nmap <buffer> <C-g> :GoDecls<cr>
   autocmd FileType go imap <buffer> <C-g> <esc>:<C-u>GoDecls<cr>
 
@@ -524,7 +528,7 @@ augroup go
 
   autocmd FileType go nmap <buffer> <silent> <Leader>x <Plug>(go-doc-vertical)
 
-  autocmd FileType go nmap <buffer> <silent> <Leader>i <Plug>(go-info)
+  autocmd FileType go nmap <buffer> <silent> <Leader>i <Plug>(go-doc)
   autocmd FileType go nmap <buffer> <silent> <Leader>l <Plug>(go-metalinter)
 
   autocmd FileType go nmap <buffer> <silent> <leader>b :<C-u>call <SID>build_go_files()<CR>
@@ -606,3 +610,34 @@ function! s:create_go_doc_comment()
   execute ":norm I// \<Esc>$"
 endfunction
 autocmd FileType go nnoremap <buffer> <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
+
+" ==================== Windows (from fatih/dotfiles) ====================
+" Fast save, and close all other windows
+nnoremap <leader>w :w!<CR>
+nnoremap <leader>o :only<CR>
+
+" Don't open the command-line window on a mistyped :q
+nnoremap q: :q
+
+" Re-equalize splits when the terminal / tmux pane is resized
+autocmd VimResized * wincmd =
+
+" Quickfix always full-width at the bottom, with wrapped lines
+augroup quickfix
+  autocmd!
+  autocmd FileType qf wincmd J
+  autocmd FileType qf setlocal wrap
+augroup END
+
+" Help in a vertical split on the right (:Help is the explicit version)
+command! -nargs=* -complete=help Help vertical belowright help <args>
+autocmd FileType help wincmd L
+
+" Terminal: <Esc> enters terminal-normal mode, <C-hjkl> moves to other windows
+if has('terminal')
+  tnoremap <Esc> <C-w>N
+  tnoremap <C-h> <C-w>h
+  tnoremap <C-j> <C-w>j
+  tnoremap <C-k> <C-w>k
+  tnoremap <C-l> <C-w>l
+endif

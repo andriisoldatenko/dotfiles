@@ -468,6 +468,10 @@ nmap <Leader>ga <Plug>(GitGutterStageHunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)
 nmap <Leader>gP <Plug>(GitGutterPreviewHunk)
 
+" Open file on GitHub at current line / selected range (fugitive + rhubarb)
+nnoremap <Leader>gh :.GBrowse<CR>
+xnoremap <Leader>gh :GBrowse<CR>
+
 " launch/kill the Livedown server
 nnoremap gm :LivedownToggle<CR>
 

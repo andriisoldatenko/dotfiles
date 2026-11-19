@@ -15,6 +15,7 @@ call minpac#add('bkad/CamelCaseMotion')
 call minpac#add('vim-python/python-syntax')
 call minpac#add('terryma/vim-expand-region')
 call minpac#add('SirVer/ultisnips')
+call minpac#add('ervandew/supertab')
 call minpac#add('rust-lang/rust.vim')
 
 call minpac#add('tpope/vim-abolish')
@@ -112,6 +113,14 @@ set nocursorcolumn              " Do not highlight column (speeds up highlightin
 set lazyredraw                  " Wait to redraw
 set history=1000
 set scrolloff=5
+set shortmess+=c                " No 'match 1 of 5' messages during completion
+set belloff+=ctrlg              " No beeps during completion
+set maxmempattern=20000         " Big files with heavy syntax (vim-go) don't hit E363
+set viminfo='1000,<50,s10,h     " Remember 1000 recent files for fzf :History
+
+" Time out on key codes quickly (fast <Esc>), but not on mappings
+set ttimeout
+set ttimeoutlen=10
 
 " only macOS
 set dictionary+=/usr/share/dict/words
@@ -247,20 +256,6 @@ set statusline+=\ %{GitStatus()}
 
 set statusline+=\ %*
 
-" Clever Tab
-function! s:CleverTab() abort
-  if pumvisible()
-    return "\<C-p>"                      " menu open: next match
-  endif
-  let col = col('.') - 1
-  if !col || getline('.')[col - 1] =~ '\s'
-    return "\<Tab>"                      " line start / after space: real tab
-  endif
-  if getline('.')[:col - 1] =~ '/\f*$'
-    return "\<C-x>\<C-f>"                " looks like a path: file completion
-  endif
-  return "\<C-p>"                        " otherwise: keyword completion
-endfunction
 
 
 
@@ -339,9 +334,6 @@ nnoremap <C-p> :<C-u>FZF<CR>
 inoremap <C-x>f <C-x><C-f>
 imap <C-x><C-p> <plug>(fzf-complete-path)
 
-" map clever tab
-inoremap <expr> <Tab>   <SID>CleverTab()
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-n>" : "\<S-Tab>"
 
 " Disable arrow keys in insert mode
 inoremap <Up>    <Nop>
@@ -454,7 +446,10 @@ let g:go_list_type = "quickfix"
 let g:go_auto_type_info = 0
 let g:go_auto_sameids = 0
 
-let g:go_echo_command_info = 1
+" Don't echo 'vim-go: initializing gopls' etc.; the statusline shows Go job status
+let g:go_echo_command_info = 0
+" Tell vim-go where Go binaries live so it skips a slow `go env GOBIN` on open
+let g:go_bin_path = empty($GOBIN) ? expand('~/go/bin') : $GOBIN
 
 let g:go_autodetect_gopath = 1
 let g:go_metalinter_command = 'golangci-lint'
@@ -465,8 +460,11 @@ let g:go_gopls_gofumpt=v:true
 let g:go_imports_mode = 'gopls'
 let g:go_gopls_complete_unimported = 1
 let g:go_implements_mode='gopls'
-" 2 = errors and warnings
-let g:go_diagnostics_level = 2
+" 0 = ignore gopls diagnostics. Any level > 0 makes vim-go bufload() every
+" file in the workspace that has a diagnostic, synchronously, which freezes
+" Vim for minutes in big repos (e.g. dynatrace-operator). Use :GoDiagnostics
+" or :GoMetaLinter on demand instead.
+let g:go_diagnostics_level = 0
 let g:go_doc_popup_window = 1
 let g:go_imports_autosave = 1
 
@@ -547,13 +545,46 @@ let g:expand_region_text_objects = {
       \ 'ip'  :0,
       \ }
 
-" ==================== UltiSnips ====================
-" <Tab> = completion, insert <C-j> = move line, so expand with <C-l>
-let g:UltiSnipsExpandTrigger = "<c-l>"
-let g:UltiSnipsJumpForwardTrigger = "<c-b>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
+" ==================== Completion + Snippets ====================
+" <Tab> does everything (same setup as fatih/dotfiles):
+"   1. UltiSnips tries to expand a snippet, or jump to the next placeholder
+"   2. if there's no snippet, UltiSnips hands <Tab> to SuperTab
+"   3. SuperTab picks a completion from the text before the cursor:
+"        after `.` (e.g. `fmt.`) -> omni completion (vim-go/gopls in Go)
+"        after `/`               -> file path completion
+"        otherwise               -> keyword completion (<C-p>)
+"        at line start/after whitespace -> inserts a real tab
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsEditSplit = "vertical"
 
 " ==================== rust.vim ====================
 " run :RustFmt on save
 let g:rustfmt_autosave = 1
+
+" ==================== vim-json ====================
+" Keep quotes visible (indentLine sets conceallevel=2)
+let g:vim_json_syntax_conceal = 0
+
+" ==================== Visual * / # ====================
+" Search for the visually selected text
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+endfunction
+xnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><C-o>
+xnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><C-o>
+
+" ==================== Go doc comment ====================
+" Insert `// <word under cursor> ` above the line to start a doc comment
+function! s:create_go_doc_comment()
+  norm "zyiw
+  execute ":put! z"
+  execute ":norm I// \<Esc>$"
+endfunction
+autocmd FileType go nnoremap <buffer> <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>

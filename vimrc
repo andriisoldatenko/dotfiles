@@ -43,6 +43,9 @@ function! s:PackInit() abort
   call minpac#add('junegunn/vim-peekaboo')
   call minpac#add('jeffkreeftmeijer/vim-numbertoggle')
   call minpac#add('b4b4r07/vim-sqlfmt')
+  call minpac#add('preservim/nerdtree')
+  call minpac#add('Xuyuanp/nerdtree-git-plugin')
+  call minpac#add('ryanoasis/vim-devicons')
   call minpac#add('vim-scripts/argtextobj.vim')
   call minpac#add('michaeljsmith/vim-indent-object')
   call minpac#add('kana/vim-textobj-user')
@@ -435,12 +438,17 @@ nnoremap <leader>fh :History<CR>
 nnoremap <leader>fb :Buffers<CR>
 nnoremap <F8> :Rg<CR>
 
-" ==================== netrw / vinegar ====================
-" `-` opens the file's directory (netrw via vim-vinegar), `-` again goes up,
-" `gh` toggles dotfiles. Junk hidden via 'wildignore' (vinegar builds
-" netrw_list_hide from it; also keeps it out of :e completion).
-set wildignore+=*.pyc,*.rbc,*.db,*.sqlite,*/__pycache__/*,__pycache__,htmlcov,node_modules,.idea
+" ==================== NerdTree ====================
+" For toggling
+noremap <Leader>n :NERDTreeToggle<cr>
+" Leave netrw to vim-vinegar (`-`); NERDTree only via <Leader>n
+let g:NERDTreeHijackNetrw = 0
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'htmlcov', 'node_modules', '.idea', '.git']
 
+autocmd vimrc BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+
+" 
 " ==================== GitGutter ====================
 set updatetime=250
 let g:gitgutter_max_signs = 500

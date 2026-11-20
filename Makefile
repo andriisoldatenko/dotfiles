@@ -2,12 +2,13 @@ all:
 	mkdir -p ~/.config/nvim
 	mkdir -p ~/.config/alacritty
 
-	[ -f ~/.config/alacritty/alacritty.yml ] || ln -s $(PWD)/alacritty.yml ~/.config/alacritty/alacritty.yml
+	[ -f ~/.config/alacritty/alacritty.toml ] || ln -s $(PWD)/alacritty.toml ~/.config/alacritty/alacritty.toml
 	[ -f ~/.config/nvim/init.lua ] || ln -s $(PWD)/init.lua ~/.config/nvim/init.lua
 	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
 	[ -f ~/.gitconfig ] || ln -s $(PWD)/gitconfig ~/.gitconfig
 	[ -f ~/.zshrc ] || ln -s $(PWD)/zshrc ~/.zshrc
 	[ -f ~/.ideavimrc ] || ln -s $(PWD)/ideavimrc ~/.ideavimrc
+	[ -f ~/.vimrc ] || ln -s $(PWD)/vimrc ~/.vimrc
 	[ -f ~/.zprofile ] || ln -s $(PWD)/zprofile ~/.zprofile
 	[ -f ~/.bash_aliases ] || ln -s $(PWD)/bash_aliases ~/.bash_aliases
 	[ -f ~/.gpg.conf ] || ln -s $(PWD)/gpg.conf ~/.gnupg/gpg.conf
